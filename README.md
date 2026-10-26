@@ -39,6 +39,7 @@ Almost every element is a **Notch**: a panel that grows out of a screen edge or 
    WayVes -f config_potato # or the lighter one, for weaker GPUs
    ```
    WayVes has to be running before Quickshell starts: each surface connects to its socket in `/tmp/WayVes` once, at start-up.
+   
 3. Clone this repo, copy `wayves-shell` to `~/.config/quickshell/wayves-shell`, and `matugen` to `~/.config/matugen` and start it with the fork's binary:
    ```sh
    quickshell -c wayves-shell
