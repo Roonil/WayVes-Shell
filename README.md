@@ -71,6 +71,11 @@ bind = $mainMod SHIFT, W, exec, quickshell -c wayves-shell ipc --any-display cal
 
 ```
 
+## Bugs / Stuff that doesn't work yet
+- No notifications/display/battery as of yet
+- `Output Streams` within the Sound Panel sometimes don't open their notches on hover; this is most-probably a QtQuick-related hover check issue.
+- Matugen color palette selection, though theme color updates do work dynamically.
+
 ## Notes
 
 [Developer's Notes from Hell](Developer's%20Notes%20from%20Hell/Notes.md) is the story of how the Notch, the Dock and `DMABufSurface` came together, and everything Qt threw back along the way. Not technically reliable, as it says itself.
