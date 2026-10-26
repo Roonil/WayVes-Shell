@@ -32,13 +32,14 @@ Almost every element is a **Notch**: a panel that grows out of a screen edge or 
 
 ## Running
 
-1. Start WayVes first, from the directory that holds its configurations:
+1. After installing WayVes, copy the contents of `WayVes Shell` from `advanced-configs` to `~/.config/WayVes/
+2.  Start WayVes first:
    ```sh
    WayVes                  # the full shell
    WayVes -f config_potato # or the lighter one, for weaker GPUs
    ```
    WayVes has to be running before Quickshell starts: each surface connects to its socket in `/tmp/WayVes` once, at start-up.
-2. Clone this repo, copy `wayves-shell` to `~/.config/quickshell/wayves-shell`, and `matugen` to `~/.config/matugen` and start it with the fork's binary:
+3. Clone this repo, copy `wayves-shell` to `~/.config/quickshell/wayves-shell`, and `matugen` to `~/.config/matugen` and start it with the fork's binary:
    ```sh
    quickshell -c wayves-shell
    ```
