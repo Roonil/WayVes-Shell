@@ -1,0 +1,15 @@
+uniform vec4 primary = {{colors.primary.default.rgba}};
+uniform vec4 sourceColor = {{colors.source_color.light.rgba}};
+uniform vec4 onPrimary = {{colors.on_primary.default.rgba}};
+uniform vec4 primaryContainer = {{colors.primary_container.default.rgba}};
+uniform vec4 onPrimaryContainer = {{colors.on_primary_container.default.rgba}};
+uniform vec4 secondary = {{colors.secondary.default.rgba}};
+uniform vec4 tertiary = {{colors.tertiary.default.rgba}};
+uniform vec4 surface = {{colors.surface.default.rgba}};
+uniform vec4 onSurface = {{colors.on_surface.default.rgba}};
+uniform vec4 surfaceContainer = {{colors.surface_container.default.rgba}};
+uniform vec4 outline = {{colors.outline.default.rgba}};
+uniform vec4 disabled = {{colors.outline.default.rgba}};
+uniform vec4 onDisabled = {{colors.surface_variant.default.rgba}};
+uniform vec4 surfaceDisabled = {{colors.surface_container_low.default.rgba}};
+uniform bool isDarkMode = {{is_dark_mode}};

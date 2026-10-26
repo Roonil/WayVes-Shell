@@ -1,0 +1,14 @@
+[config]
+# Global behavior settings
+reload_apps = false
+
+
+[templates.quickshell_json]
+input_path = "templates/colors.json"
+output_path = "~/.config/quickshell/wayves-shell/persist/Colors.json"
+
+[templates.wayves]
+input_path = "templates/WayVes/colors_uniforms.glsl"
+output_path = "~/.config/WayVes/matugenColors/colors_uniforms.glsl"
+
+

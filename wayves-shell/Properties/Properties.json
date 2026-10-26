@@ -1,0 +1,236 @@
+{
+  "$schema": "./Properties.schema.json",
+  "performance": {
+    "potato": false
+  },
+  "scale": { "font": 1, "size": 1 },
+  "notch": {
+    "overshoot": 1,
+    "squash": 12,
+    "panelOpacity": 0.65
+  },
+  "bars": {
+    "top": {
+      "exclusiveZone": 40,
+      "behavior": {
+        "changeWhenWindowOpen": true,
+        "default": { "attach": "none", "topMargin": 10, "sideMargin": 12 },
+        "windowOpen": { "attach": "edges" }
+      },
+      "left": {
+        "notch": {
+          "minimumHeaderHeight": 50,
+          "minimumContentHeight": 100,
+          "minimumContentWidth": 100,
+          "headerHorizontalPadding": 18,
+          "dropShadow": {
+            "enabled": true
+          }
+        }
+      },
+      "center": {
+        "notch": {
+          "minimumHeaderHeight": 50,
+          "headerHorizontalPadding": 16,
+          "headerVerticalPadding": 8,
+          "minimumContentWidth": 620,
+          "minimumContentHeight": 320,
+          "contentVerticalPadding": 0,
+          "dropShadow": {
+            "enabled": true,
+            "leftExtent": 250,
+            "bottomExtent": 180,
+            "applyToShape": false
+          },
+          "bottomNotch": {
+            "radius": 30,
+            "minimumHeaderWidth": 180,
+            "minimumHeaderHeight": 55,
+            "headerVerticalPadding": 5,
+            "headerHorizontalPadding": 0,
+            "contentVerticalPadding": 5,
+            "minimumContentWidth": 320,
+            "minimumContentHeight": 80,
+
+            "dropShadow": {
+              "enabled": true,
+              "topExtent": 30,
+              "bottomExtent": 30,
+              "leftExtent": 30,
+              "rightExtent": 30,
+              "spread": 0.3,
+              "blur": 10.4
+            }
+          },
+          "sideNotch": {
+            "minimumHeaderHeight": 70,
+            "minimumHeaderWidth": 30,
+            "contentVerticalPadding": 12,
+            "contentHorizontalPadding": 8,
+            "dropShadow": {
+              "enabled": true,
+              "topExtent": 30,
+              "bottomExtent": 30,
+              "leftExtent": 30,
+              "rightExtent": 30,
+              "spread": 0.3,
+              "blur": 10.4
+            }
+          }
+        }
+      },
+      "systemTray": {
+        "notch": {
+          "minimumContentWidth": 200,
+          "minimumHeaderHeight": 50,
+          "headerHorizontalPadding": 16,
+
+          "dropShadow": {
+            "enabled": true,
+            "leftExtent": 340,
+            "topExtent": 50,
+            "bottomExtent": 50,
+            "applyToShape": false
+          }
+        },
+        "sideNotch": {
+          "headerHorizontalPadding": 8,
+          "minimumHeaderHeight": 50,
+          "minimumHeaderWidth": 30,
+          "contentVerticalPadding": 8,
+          "contentHorizontalPadding": 4,
+          "minimumContentWidth": 150,
+          "dropShadow": {
+            "enabled": true,
+            "leftExtent": 40,
+            "topExtent": 50,
+            "bottomExtent": 50,
+            "applyToShape": false
+          }
+        }
+      },
+      "right": {
+        "notch": {
+          "minimumHeaderHeight": 50,
+          "headerHorizontalPadding": 16,
+          "minimumContentWidth": 500,
+          "dropShadow": {
+            "enabled": true,
+            "leftExtent": 850,
+            "bottomExtent": 550,
+            "applyToShape": false
+          }
+        },
+        "sideNotch": {
+          "minimumHeaderHeight": 50,
+          "minimumHeaderWidth": 20,
+          "headerHorizontalPadding": 8,
+          "minimumContentWidth": 100,
+          "minimumContentHeight": 100,
+          "contentHorizontalPadding": 20,
+          "contentVerticalPadding": 24,
+          "dropShadow": {
+            "enabled": true
+          }
+        }
+      }
+    },
+    "side": {
+      "activationWidth": 10,
+      "activationHeight": 700,
+      "showHoverRegion": false,
+      "topNotch": {
+        "headerHorizontalPadding": 40,
+        "headerVerticalPadding": 40,
+        "minimumHeaderWidth": 550,
+        "dropShadow": {
+          "enabled": true
+        }
+      },
+      "rightNotch": {
+        "headerHorizontalPadding": 40,
+        "headerVerticalPadding": 50,
+        "minimumHeaderHeight": 800,
+        "dropShadow": {
+          "enabled": true,
+          "leftExtent": 800,
+          "bottomExtent": 200,
+          "applyToShape": false
+        }
+      },
+      "bottomNotch": {
+        "headerHorizontalPadding": 20,
+        "headerVerticalPadding": 10,
+        "dropShadow": {
+          "enabled": true,
+          "applyToShape": true
+        }
+      }
+    }
+  },
+  "dock": {
+    "surfaceHeight": 700,
+    "radius": 1000,
+    "viewTiltAngle": 75,
+    "viewSweepAngle": 120,
+    "sweepAngle": 110,
+    "verticalAngle": 27,
+    "indicatorDistance": 15,
+    "indicatorWidthScale": 1.2,
+    "indicatorHeightScale": 1.2,
+    "radialDisplacement": -150,
+    "indicatorFloatHeight": 5,
+    "iconFloatHeight": 20,
+    "iconWidth": 80,
+    "iconHeight": 80,
+    "perspectiveDistance": 2048,
+    "hoverWidth": 1600,
+    "hoverHeight": 300,
+    "activationWidth": 1600,
+    "activationHeight": 10,
+
+    "showHoverRegion": false,
+    "showPreviews": true,
+    "minimumToplevelWidth": 420,
+    "numMaxChildren": 2,
+
+    "previewNotch": {
+      "minimumContentHeight": 340,
+      "minimumContentWidth": 420,
+      "contentVerticalPadding": 12,
+      "contentHorizontalPadding": 16,
+      "dropShadow": {
+        "enabled": true
+      }
+    },
+    "menuNotch": {
+      "contentHorizontalPadding": 12,
+      "contentVerticalPadding": 16,
+      "dropShadow": {
+        "enabled": true
+      }
+    }
+  },
+  "lockscreen": {
+    "notch": {
+      "minimumHeaderWidth": 50,
+      "minimumHeaderHeight": 50,
+      "headerTopPadding": 40,
+      "headerBottomPadding": 40,
+
+      "minimumContentHeight": 100,
+      "minimumContentWidth": 100
+    }
+  },
+  "wallpapers": {
+    "directory": "~/Pictures/Wallpapers"
+  },
+  "powerMenu": {
+    "countdowns": {
+      "shutdown": 5,
+      "reboot": 5,
+      "logout": 5,
+      "lock": 0
+    }
+  }
+}

@@ -1,0 +1,2323 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "Properties.schema.json",
+  "title": "wayves-shell Properties.json",
+  "description": "Layout and behaviour of wayves-shell. Every key is optional; a missing key uses the default shown on hover.",
+  "type": "object",
+  "additionalProperties": false,
+  "definitions": {
+    "dropShadow": {
+      "type": "object",
+      "description": "Drop shadow drawn under the notch.",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Draw the shadow.",
+          "default": false
+        },
+        "applyToShape": {
+          "type": "boolean",
+          "description": "true: the shadow follows the notch's own shape only. false: it's computed from everything the notch draws, including child notches that protrude from it, captured within the extents below.",
+          "default": true
+        },
+        "leftExtent": {
+          "type": "number",
+          "description": "Capture padding left of the notch, in px, for content shadows (applyToShape: false). Size it to cover child notches that protrude to the left, or their shadows get cut off. Not the visible shadow size.",
+          "default": 30,
+          "minimum": 0
+        },
+        "rightExtent": {
+          "type": "number",
+          "description": "Capture padding to the right, in px. See leftExtent.",
+          "default": 30,
+          "minimum": 0
+        },
+        "topExtent": {
+          "type": "number",
+          "description": "Capture padding above, in px. See leftExtent.",
+          "default": 30,
+          "minimum": 0
+        },
+        "bottomExtent": {
+          "type": "number",
+          "description": "Capture padding below, in px. See leftExtent.",
+          "default": 30,
+          "minimum": 0
+        },
+        "verticalOffset": {
+          "type": "number",
+          "description": "Shadow offset downwards, in px.",
+          "default": 8
+        },
+        "horizontalOffset": {
+          "type": "number",
+          "description": "Shadow offset to the right, in px.",
+          "default": 0
+        },
+        "color": {
+          "type": "string",
+          "description": "Shadow colour (any Qt colour string, e.g. \"#80000000\"). Defaults to a dark tint of the theme's primary colour."
+        },
+        "blur": {
+          "type": "number",
+          "description": "Blur radius of the shadow, in px. Keep the extents at least this large for content shadows.",
+          "default": 32,
+          "minimum": 0
+        },
+        "spread": {
+          "type": "number",
+          "description": "How much larger than the notch the shadow is, as a fraction of its size (0.1 = 10% larger).",
+          "default": 0,
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Path to this schema, for editor validation and hover docs. Ignored by the shell."
+    },
+    "bars": {
+      "type": "object",
+      "description": "The top bar and the side bar.",
+      "properties": {
+        "top": {
+          "type": "object",
+          "description": "The top bar.",
+          "properties": {
+            "exclusiveZone": {
+              "type": "integer",
+              "description": "Space the bar reserves at the top of the screen, in px. Windows are laid out below it.",
+              "default": 40
+            },
+            "behavior": {
+              "type": "object",
+              "description": "The bar's resting style and the style it switches to while the focused workspace has windows.",
+              "properties": {
+                "changeWhenWindowOpen": {
+                  "type": "boolean",
+                  "description": "Switch to the windowOpen style while the focused workspace has a window. false keeps the default style at all times.",
+                  "default": true
+                },
+                "default": {
+                  "type": "object",
+                  "description": "Resting style.",
+                  "properties": {
+                    "attach": {
+                      "type": "string",
+                      "enum": [
+                        "none",
+                        "top",
+                        "edges"
+                      ],
+                      "description": "How the bar's notches attach. none: every notch floats with rounded corners. top: notches flare into the top edge (topMargin is ignored). edges: also into the screen's sides (both margins are ignored).",
+                      "default": "none"
+                    },
+                    "topMargin": {
+                      "type": "number",
+                      "description": "Gap between the screen's top edge and the bar, in px. Only used with attach: none.",
+                      "minimum": 0,
+                      "default": 10
+                    },
+                    "sideMargin": {
+                      "type": "number",
+                      "description": "Gap between the screen's sides and the outer notches, in px. Ignored with attach: edges.",
+                      "minimum": 0,
+                      "default": 12
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "windowOpen": {
+                  "type": "object",
+                  "description": "Style while the focused workspace has a window. Missing keys come from default.",
+                  "properties": {
+                    "attach": {
+                      "type": "string",
+                      "enum": [
+                        "none",
+                        "top",
+                        "edges"
+                      ],
+                      "description": "How the bar's notches attach. none: every notch floats with rounded corners. top: notches flare into the top edge (topMargin is ignored). edges: also into the screen's sides (both margins are ignored).",
+                      "default": "edges"
+                    },
+                    "topMargin": {
+                      "type": "number",
+                      "description": "Gap between the screen's top edge and the bar, in px. Only used with attach: none.",
+                      "minimum": 0
+                    },
+                    "sideMargin": {
+                      "type": "number",
+                      "description": "Gap between the screen's sides and the outer notches, in px. Ignored with attach: edges.",
+                      "minimum": 0
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            },
+            "left": {
+              "type": "object",
+              "description": "Left of the bar.",
+              "properties": {
+                "notch": {
+                  "type": "object",
+                  "description": "Workspaces notch.",
+                  "properties": {
+                    "radius": {
+                      "type": "number",
+                      "description": "Corner radius, in px. Capped at half the notch's width and height.",
+                      "default": 28,
+                      "minimum": 0
+                    },
+                    "minimumHeaderWidth": {
+                      "type": "number",
+                      "description": "Minimum width of the header (the always-visible part), in px. -1 for none.",
+                      "default": -1,
+                      "minimum": -1
+                    },
+                    "minimumHeaderHeight": {
+                      "type": "number",
+                      "description": "Minimum height of the header, in px. -1 for none.",
+                      "default": -1,
+                      "minimum": -1
+                    },
+                    "headerPadding": {
+                      "type": "number",
+                      "description": "Padding on all sides of the header, in px. Padding keys follow Qt Controls: a side-specific key (e.g. headerLeftPadding) wins over headerHorizontalPadding/headerVerticalPadding, which win over headerPadding. Leave a key out to fall through.",
+                      "default": 0,
+                      "minimum": 0
+                    },
+                    "headerHorizontalPadding": {
+                      "type": "number",
+                      "description": "Left and right header padding, in px. Overrides headerPadding.",
+                      "minimum": 0
+                    },
+                    "headerVerticalPadding": {
+                      "type": "number",
+                      "description": "Top and bottom header padding, in px. Overrides headerPadding.",
+                      "minimum": 0
+                    },
+                    "headerLeftPadding": {
+                      "type": "number",
+                      "description": "Header padding on the left side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "headerRightPadding": {
+                      "type": "number",
+                      "description": "Header padding on the right side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "headerTopPadding": {
+                      "type": "number",
+                      "description": "Header padding on the top side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "headerBottomPadding": {
+                      "type": "number",
+                      "description": "Header padding on the bottom side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "minimumContentWidth": {
+                      "type": "number",
+                      "description": "Minimum width of the expanded content, in px. -1 for none.",
+                      "default": -1,
+                      "minimum": -1
+                    },
+                    "minimumContentHeight": {
+                      "type": "number",
+                      "description": "Minimum height of the expanded content, in px. -1 for none.",
+                      "default": -1,
+                      "minimum": -1
+                    },
+                    "contentPadding": {
+                      "type": "number",
+                      "description": "Padding on all sides of the expanded content, in px. Same precedence as headerPadding.",
+                      "default": 0,
+                      "minimum": 0
+                    },
+                    "contentHorizontalPadding": {
+                      "type": "number",
+                      "description": "Left and right content padding, in px. Overrides contentPadding.",
+                      "minimum": 0
+                    },
+                    "contentVerticalPadding": {
+                      "type": "number",
+                      "description": "Top and bottom content padding, in px. Overrides contentPadding.",
+                      "minimum": 0
+                    },
+                    "contentLeftPadding": {
+                      "type": "number",
+                      "description": "Content padding on the left side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "contentRightPadding": {
+                      "type": "number",
+                      "description": "Content padding on the right side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "contentTopPadding": {
+                      "type": "number",
+                      "description": "Content padding on the top side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "contentBottomPadding": {
+                      "type": "number",
+                      "description": "Content padding on the bottom side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "panelOpacity": {
+                      "type": "number",
+                      "description": "Opacity of the notch's fill (its content stays opaque). Falls back to the parent notch's value, so a child protruding from its parent matches it at the join, then to the shared notch.panelOpacity.",
+                      "default": 0.65,
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    "overshoot": {
+                      "type": "number",
+                      "description": "Overrides the shared notch.overshoot for this notch.",
+                      "minimum": 0
+                    },
+                    "squash": {
+                      "type": "number",
+                      "description": "Overrides the shared notch.squash for this notch.",
+                      "minimum": 0
+                    },
+                    "dropShadow": {
+                      "$ref": "#/definitions/dropShadow"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            },
+            "center": {
+              "type": "object",
+              "description": "Centre of the bar.",
+              "properties": {
+                "notch": {
+                  "type": "object",
+                  "description": "Clock notch. Expands into the media widget; the wallpaper picker opens from it.",
+                  "properties": {
+                    "radius": {
+                      "type": "number",
+                      "description": "Corner radius, in px. Capped at half the notch's width and height.",
+                      "default": 28,
+                      "minimum": 0
+                    },
+                    "minimumHeaderWidth": {
+                      "type": "number",
+                      "description": "Minimum width of the header (the always-visible part), in px. -1 for none.",
+                      "default": -1,
+                      "minimum": -1
+                    },
+                    "minimumHeaderHeight": {
+                      "type": "number",
+                      "description": "Minimum height of the header, in px. -1 for none.",
+                      "default": -1,
+                      "minimum": -1
+                    },
+                    "headerPadding": {
+                      "type": "number",
+                      "description": "Padding on all sides of the header, in px. Padding keys follow Qt Controls: a side-specific key (e.g. headerLeftPadding) wins over headerHorizontalPadding/headerVerticalPadding, which win over headerPadding. Leave a key out to fall through.",
+                      "default": 0,
+                      "minimum": 0
+                    },
+                    "headerHorizontalPadding": {
+                      "type": "number",
+                      "description": "Left and right header padding, in px. Overrides headerPadding.",
+                      "minimum": 0
+                    },
+                    "headerVerticalPadding": {
+                      "type": "number",
+                      "description": "Top and bottom header padding, in px. Overrides headerPadding.",
+                      "minimum": 0
+                    },
+                    "headerLeftPadding": {
+                      "type": "number",
+                      "description": "Header padding on the left side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "headerRightPadding": {
+                      "type": "number",
+                      "description": "Header padding on the right side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "headerTopPadding": {
+                      "type": "number",
+                      "description": "Header padding on the top side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "headerBottomPadding": {
+                      "type": "number",
+                      "description": "Header padding on the bottom side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "minimumContentWidth": {
+                      "type": "number",
+                      "description": "Minimum width of the expanded content, in px. -1 for none.",
+                      "default": -1,
+                      "minimum": -1
+                    },
+                    "minimumContentHeight": {
+                      "type": "number",
+                      "description": "Minimum height of the expanded content, in px. -1 for none.",
+                      "default": -1,
+                      "minimum": -1
+                    },
+                    "contentPadding": {
+                      "type": "number",
+                      "description": "Padding on all sides of the expanded content, in px. Same precedence as headerPadding.",
+                      "default": 0,
+                      "minimum": 0
+                    },
+                    "contentHorizontalPadding": {
+                      "type": "number",
+                      "description": "Left and right content padding, in px. Overrides contentPadding.",
+                      "minimum": 0
+                    },
+                    "contentVerticalPadding": {
+                      "type": "number",
+                      "description": "Top and bottom content padding, in px. Overrides contentPadding.",
+                      "minimum": 0
+                    },
+                    "contentLeftPadding": {
+                      "type": "number",
+                      "description": "Content padding on the left side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "contentRightPadding": {
+                      "type": "number",
+                      "description": "Content padding on the right side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "contentTopPadding": {
+                      "type": "number",
+                      "description": "Content padding on the top side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "contentBottomPadding": {
+                      "type": "number",
+                      "description": "Content padding on the bottom side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "panelOpacity": {
+                      "type": "number",
+                      "description": "Opacity of the notch's fill (its content stays opaque). Falls back to the parent notch's value, so a child protruding from its parent matches it at the join, then to the shared notch.panelOpacity.",
+                      "default": 0.65,
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    "overshoot": {
+                      "type": "number",
+                      "description": "Overrides the shared notch.overshoot for this notch.",
+                      "minimum": 0
+                    },
+                    "squash": {
+                      "type": "number",
+                      "description": "Overrides the shared notch.squash for this notch.",
+                      "minimum": 0
+                    },
+                    "dropShadow": {
+                      "$ref": "#/definitions/dropShadow"
+                    },
+                    "bottomNotch": {
+                      "type": "object",
+                      "description": "Notch hanging below the media widget (WayVes logo).",
+                      "properties": {
+                        "radius": {
+                          "type": "number",
+                          "description": "Corner radius, in px. Capped at half the notch's width and height.",
+                          "default": 28,
+                          "minimum": 0
+                        },
+                        "minimumHeaderWidth": {
+                          "type": "number",
+                          "description": "Minimum width of the header (the always-visible part), in px. -1 for none.",
+                          "default": -1,
+                          "minimum": -1
+                        },
+                        "minimumHeaderHeight": {
+                          "type": "number",
+                          "description": "Minimum height of the header, in px. -1 for none.",
+                          "default": -1,
+                          "minimum": -1
+                        },
+                        "headerPadding": {
+                          "type": "number",
+                          "description": "Padding on all sides of the header, in px. Padding keys follow Qt Controls: a side-specific key (e.g. headerLeftPadding) wins over headerHorizontalPadding/headerVerticalPadding, which win over headerPadding. Leave a key out to fall through.",
+                          "default": 0,
+                          "minimum": 0
+                        },
+                        "headerHorizontalPadding": {
+                          "type": "number",
+                          "description": "Left and right header padding, in px. Overrides headerPadding.",
+                          "minimum": 0
+                        },
+                        "headerVerticalPadding": {
+                          "type": "number",
+                          "description": "Top and bottom header padding, in px. Overrides headerPadding.",
+                          "minimum": 0
+                        },
+                        "headerLeftPadding": {
+                          "type": "number",
+                          "description": "Header padding on the left side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                          "minimum": 0
+                        },
+                        "headerRightPadding": {
+                          "type": "number",
+                          "description": "Header padding on the right side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                          "minimum": 0
+                        },
+                        "headerTopPadding": {
+                          "type": "number",
+                          "description": "Header padding on the top side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                          "minimum": 0
+                        },
+                        "headerBottomPadding": {
+                          "type": "number",
+                          "description": "Header padding on the bottom side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                          "minimum": 0
+                        },
+                        "minimumContentWidth": {
+                          "type": "number",
+                          "description": "Minimum width of the expanded content, in px. -1 for none.",
+                          "default": -1,
+                          "minimum": -1
+                        },
+                        "minimumContentHeight": {
+                          "type": "number",
+                          "description": "Minimum height of the expanded content, in px. -1 for none.",
+                          "default": -1,
+                          "minimum": -1
+                        },
+                        "contentPadding": {
+                          "type": "number",
+                          "description": "Padding on all sides of the expanded content, in px. Same precedence as headerPadding.",
+                          "default": 0,
+                          "minimum": 0
+                        },
+                        "contentHorizontalPadding": {
+                          "type": "number",
+                          "description": "Left and right content padding, in px. Overrides contentPadding.",
+                          "minimum": 0
+                        },
+                        "contentVerticalPadding": {
+                          "type": "number",
+                          "description": "Top and bottom content padding, in px. Overrides contentPadding.",
+                          "minimum": 0
+                        },
+                        "contentLeftPadding": {
+                          "type": "number",
+                          "description": "Content padding on the left side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                          "minimum": 0
+                        },
+                        "contentRightPadding": {
+                          "type": "number",
+                          "description": "Content padding on the right side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                          "minimum": 0
+                        },
+                        "contentTopPadding": {
+                          "type": "number",
+                          "description": "Content padding on the top side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                          "minimum": 0
+                        },
+                        "contentBottomPadding": {
+                          "type": "number",
+                          "description": "Content padding on the bottom side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                          "minimum": 0
+                        },
+                        "panelOpacity": {
+                          "type": "number",
+                          "description": "Opacity of the notch's fill (its content stays opaque). Falls back to the parent notch's value, so a child protruding from its parent matches it at the join, then to the shared notch.panelOpacity.",
+                          "default": 0.65,
+                          "minimum": 0,
+                          "maximum": 1
+                        },
+                        "overshoot": {
+                          "type": "number",
+                          "description": "Overrides the shared notch.overshoot for this notch.",
+                          "minimum": 0
+                        },
+                        "squash": {
+                          "type": "number",
+                          "description": "Overrides the shared notch.squash for this notch.",
+                          "minimum": 0
+                        },
+                        "dropShadow": {
+                          "$ref": "#/definitions/dropShadow"
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "sideNotch": {
+                      "type": "object",
+                      "description": "Player selector beside the media widget, shown with more than one player.",
+                      "properties": {
+                        "radius": {
+                          "type": "number",
+                          "description": "Corner radius, in px. Capped at half the notch's width and height.",
+                          "default": 28,
+                          "minimum": 0
+                        },
+                        "minimumHeaderWidth": {
+                          "type": "number",
+                          "description": "Minimum width of the header (the always-visible part), in px. -1 for none.",
+                          "default": -1,
+                          "minimum": -1
+                        },
+                        "minimumHeaderHeight": {
+                          "type": "number",
+                          "description": "Minimum height of the header, in px. -1 for none.",
+                          "default": -1,
+                          "minimum": -1
+                        },
+                        "headerPadding": {
+                          "type": "number",
+                          "description": "Padding on all sides of the header, in px. Padding keys follow Qt Controls: a side-specific key (e.g. headerLeftPadding) wins over headerHorizontalPadding/headerVerticalPadding, which win over headerPadding. Leave a key out to fall through.",
+                          "default": 0,
+                          "minimum": 0
+                        },
+                        "headerHorizontalPadding": {
+                          "type": "number",
+                          "description": "Left and right header padding, in px. Overrides headerPadding.",
+                          "minimum": 0
+                        },
+                        "headerVerticalPadding": {
+                          "type": "number",
+                          "description": "Top and bottom header padding, in px. Overrides headerPadding.",
+                          "minimum": 0
+                        },
+                        "headerLeftPadding": {
+                          "type": "number",
+                          "description": "Header padding on the left side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                          "minimum": 0
+                        },
+                        "headerRightPadding": {
+                          "type": "number",
+                          "description": "Header padding on the right side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                          "minimum": 0
+                        },
+                        "headerTopPadding": {
+                          "type": "number",
+                          "description": "Header padding on the top side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                          "minimum": 0
+                        },
+                        "headerBottomPadding": {
+                          "type": "number",
+                          "description": "Header padding on the bottom side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                          "minimum": 0
+                        },
+                        "minimumContentWidth": {
+                          "type": "number",
+                          "description": "Minimum width of the expanded content, in px. -1 for none.",
+                          "default": -1,
+                          "minimum": -1
+                        },
+                        "minimumContentHeight": {
+                          "type": "number",
+                          "description": "Minimum height of the expanded content, in px. -1 for none.",
+                          "default": -1,
+                          "minimum": -1
+                        },
+                        "contentPadding": {
+                          "type": "number",
+                          "description": "Padding on all sides of the expanded content, in px. Same precedence as headerPadding.",
+                          "default": 0,
+                          "minimum": 0
+                        },
+                        "contentHorizontalPadding": {
+                          "type": "number",
+                          "description": "Left and right content padding, in px. Overrides contentPadding.",
+                          "minimum": 0
+                        },
+                        "contentVerticalPadding": {
+                          "type": "number",
+                          "description": "Top and bottom content padding, in px. Overrides contentPadding.",
+                          "minimum": 0
+                        },
+                        "contentLeftPadding": {
+                          "type": "number",
+                          "description": "Content padding on the left side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                          "minimum": 0
+                        },
+                        "contentRightPadding": {
+                          "type": "number",
+                          "description": "Content padding on the right side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                          "minimum": 0
+                        },
+                        "contentTopPadding": {
+                          "type": "number",
+                          "description": "Content padding on the top side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                          "minimum": 0
+                        },
+                        "contentBottomPadding": {
+                          "type": "number",
+                          "description": "Content padding on the bottom side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                          "minimum": 0
+                        },
+                        "panelOpacity": {
+                          "type": "number",
+                          "description": "Opacity of the notch's fill (its content stays opaque). Falls back to the parent notch's value, so a child protruding from its parent matches it at the join, then to the shared notch.panelOpacity.",
+                          "default": 0.65,
+                          "minimum": 0,
+                          "maximum": 1
+                        },
+                        "overshoot": {
+                          "type": "number",
+                          "description": "Overrides the shared notch.overshoot for this notch.",
+                          "minimum": 0
+                        },
+                        "squash": {
+                          "type": "number",
+                          "description": "Overrides the shared notch.squash for this notch.",
+                          "minimum": 0
+                        },
+                        "dropShadow": {
+                          "$ref": "#/definitions/dropShadow"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            },
+            "systemTray": {
+              "type": "object",
+              "description": "System tray, left of the controls.",
+              "properties": {
+                "notch": {
+                  "type": "object",
+                  "description": "Tray notch. Collapses to nothing while the tray is empty (its header minimums and padding are then 0).",
+                  "properties": {
+                    "radius": {
+                      "type": "number",
+                      "description": "Corner radius, in px. Capped at half the notch's width and height.",
+                      "default": 28,
+                      "minimum": 0
+                    },
+                    "minimumHeaderWidth": {
+                      "type": "number",
+                      "description": "Minimum width of the header (the always-visible part), in px. -1 for none.",
+                      "default": -1,
+                      "minimum": -1
+                    },
+                    "minimumHeaderHeight": {
+                      "type": "number",
+                      "description": "Minimum height of the header, in px. -1 for none.",
+                      "default": -1,
+                      "minimum": -1
+                    },
+                    "headerPadding": {
+                      "type": "number",
+                      "description": "Padding on all sides of the header, in px. Padding keys follow Qt Controls: a side-specific key (e.g. headerLeftPadding) wins over headerHorizontalPadding/headerVerticalPadding, which win over headerPadding. Leave a key out to fall through.",
+                      "default": 0,
+                      "minimum": 0
+                    },
+                    "headerHorizontalPadding": {
+                      "type": "number",
+                      "description": "Left and right header padding, in px. Overrides headerPadding.",
+                      "minimum": 0
+                    },
+                    "headerVerticalPadding": {
+                      "type": "number",
+                      "description": "Top and bottom header padding, in px. Overrides headerPadding.",
+                      "minimum": 0
+                    },
+                    "headerLeftPadding": {
+                      "type": "number",
+                      "description": "Header padding on the left side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "headerRightPadding": {
+                      "type": "number",
+                      "description": "Header padding on the right side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "headerTopPadding": {
+                      "type": "number",
+                      "description": "Header padding on the top side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "headerBottomPadding": {
+                      "type": "number",
+                      "description": "Header padding on the bottom side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "minimumContentWidth": {
+                      "type": "number",
+                      "description": "Minimum width of the expanded content, in px. -1 for none.",
+                      "default": -1,
+                      "minimum": -1
+                    },
+                    "minimumContentHeight": {
+                      "type": "number",
+                      "description": "Minimum height of the expanded content, in px. -1 for none.",
+                      "default": -1,
+                      "minimum": -1
+                    },
+                    "contentPadding": {
+                      "type": "number",
+                      "description": "Padding on all sides of the expanded content, in px. Same precedence as headerPadding.",
+                      "default": 0,
+                      "minimum": 0
+                    },
+                    "contentHorizontalPadding": {
+                      "type": "number",
+                      "description": "Left and right content padding, in px. Overrides contentPadding.",
+                      "minimum": 0
+                    },
+                    "contentVerticalPadding": {
+                      "type": "number",
+                      "description": "Top and bottom content padding, in px. Overrides contentPadding.",
+                      "minimum": 0
+                    },
+                    "contentLeftPadding": {
+                      "type": "number",
+                      "description": "Content padding on the left side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "contentRightPadding": {
+                      "type": "number",
+                      "description": "Content padding on the right side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "contentTopPadding": {
+                      "type": "number",
+                      "description": "Content padding on the top side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "contentBottomPadding": {
+                      "type": "number",
+                      "description": "Content padding on the bottom side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "panelOpacity": {
+                      "type": "number",
+                      "description": "Opacity of the notch's fill (its content stays opaque). Falls back to the parent notch's value, so a child protruding from its parent matches it at the join, then to the shared notch.panelOpacity.",
+                      "default": 0.65,
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    "overshoot": {
+                      "type": "number",
+                      "description": "Overrides the shared notch.overshoot for this notch.",
+                      "minimum": 0
+                    },
+                    "squash": {
+                      "type": "number",
+                      "description": "Overrides the shared notch.squash for this notch.",
+                      "minimum": 0
+                    },
+                    "dropShadow": {
+                      "$ref": "#/definitions/dropShadow"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "sideNotch": {
+                  "type": "object",
+                  "description": "Notches for tray menus and submenus.",
+                  "properties": {
+                    "radius": {
+                      "type": "number",
+                      "description": "Corner radius, in px. Capped at half the notch's width and height.",
+                      "default": 28,
+                      "minimum": 0
+                    },
+                    "minimumHeaderWidth": {
+                      "type": "number",
+                      "description": "Minimum width of the header (the always-visible part), in px. -1 for none.",
+                      "default": -1,
+                      "minimum": -1
+                    },
+                    "minimumHeaderHeight": {
+                      "type": "number",
+                      "description": "Minimum height of the header, in px. -1 for none.",
+                      "default": -1,
+                      "minimum": -1
+                    },
+                    "headerPadding": {
+                      "type": "number",
+                      "description": "Padding on all sides of the header, in px. Padding keys follow Qt Controls: a side-specific key (e.g. headerLeftPadding) wins over headerHorizontalPadding/headerVerticalPadding, which win over headerPadding. Leave a key out to fall through.",
+                      "default": 0,
+                      "minimum": 0
+                    },
+                    "headerHorizontalPadding": {
+                      "type": "number",
+                      "description": "Left and right header padding, in px. Overrides headerPadding.",
+                      "minimum": 0
+                    },
+                    "headerVerticalPadding": {
+                      "type": "number",
+                      "description": "Top and bottom header padding, in px. Overrides headerPadding.",
+                      "minimum": 0
+                    },
+                    "headerLeftPadding": {
+                      "type": "number",
+                      "description": "Header padding on the left side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "headerRightPadding": {
+                      "type": "number",
+                      "description": "Header padding on the right side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "headerTopPadding": {
+                      "type": "number",
+                      "description": "Header padding on the top side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "headerBottomPadding": {
+                      "type": "number",
+                      "description": "Header padding on the bottom side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "minimumContentWidth": {
+                      "type": "number",
+                      "description": "Minimum width of the expanded content, in px. -1 for none.",
+                      "default": -1,
+                      "minimum": -1
+                    },
+                    "minimumContentHeight": {
+                      "type": "number",
+                      "description": "Minimum height of the expanded content, in px. -1 for none.",
+                      "default": -1,
+                      "minimum": -1
+                    },
+                    "contentPadding": {
+                      "type": "number",
+                      "description": "Padding on all sides of the expanded content, in px. Same precedence as headerPadding.",
+                      "default": 0,
+                      "minimum": 0
+                    },
+                    "contentHorizontalPadding": {
+                      "type": "number",
+                      "description": "Left and right content padding, in px. Overrides contentPadding.",
+                      "minimum": 0
+                    },
+                    "contentVerticalPadding": {
+                      "type": "number",
+                      "description": "Top and bottom content padding, in px. Overrides contentPadding.",
+                      "minimum": 0
+                    },
+                    "contentLeftPadding": {
+                      "type": "number",
+                      "description": "Content padding on the left side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "contentRightPadding": {
+                      "type": "number",
+                      "description": "Content padding on the right side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "contentTopPadding": {
+                      "type": "number",
+                      "description": "Content padding on the top side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "contentBottomPadding": {
+                      "type": "number",
+                      "description": "Content padding on the bottom side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "panelOpacity": {
+                      "type": "number",
+                      "description": "Opacity of the notch's fill (its content stays opaque). Falls back to the parent notch's value, so a child protruding from its parent matches it at the join, then to the shared notch.panelOpacity.",
+                      "default": 0.65,
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    "overshoot": {
+                      "type": "number",
+                      "description": "Overrides the shared notch.overshoot for this notch.",
+                      "minimum": 0
+                    },
+                    "squash": {
+                      "type": "number",
+                      "description": "Overrides the shared notch.squash for this notch.",
+                      "minimum": 0
+                    },
+                    "dropShadow": {
+                      "$ref": "#/definitions/dropShadow"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            },
+            "right": {
+              "type": "object",
+              "description": "Right of the bar.",
+              "properties": {
+                "notch": {
+                  "type": "object",
+                  "description": "Controls notch (Wi-Fi, Bluetooth, sound).",
+                  "properties": {
+                    "radius": {
+                      "type": "number",
+                      "description": "Corner radius, in px. Capped at half the notch's width and height.",
+                      "default": 28,
+                      "minimum": 0
+                    },
+                    "minimumHeaderWidth": {
+                      "type": "number",
+                      "description": "Minimum width of the header (the always-visible part), in px. -1 for none.",
+                      "default": -1,
+                      "minimum": -1
+                    },
+                    "minimumHeaderHeight": {
+                      "type": "number",
+                      "description": "Minimum height of the header, in px. -1 for none.",
+                      "default": -1,
+                      "minimum": -1
+                    },
+                    "headerPadding": {
+                      "type": "number",
+                      "description": "Padding on all sides of the header, in px. Padding keys follow Qt Controls: a side-specific key (e.g. headerLeftPadding) wins over headerHorizontalPadding/headerVerticalPadding, which win over headerPadding. Leave a key out to fall through.",
+                      "default": 0,
+                      "minimum": 0
+                    },
+                    "headerHorizontalPadding": {
+                      "type": "number",
+                      "description": "Left and right header padding, in px. Overrides headerPadding.",
+                      "minimum": 0
+                    },
+                    "headerVerticalPadding": {
+                      "type": "number",
+                      "description": "Top and bottom header padding, in px. Overrides headerPadding.",
+                      "minimum": 0
+                    },
+                    "headerLeftPadding": {
+                      "type": "number",
+                      "description": "Header padding on the left side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "headerRightPadding": {
+                      "type": "number",
+                      "description": "Header padding on the right side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "headerTopPadding": {
+                      "type": "number",
+                      "description": "Header padding on the top side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "headerBottomPadding": {
+                      "type": "number",
+                      "description": "Header padding on the bottom side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "minimumContentWidth": {
+                      "type": "number",
+                      "description": "Minimum width of the expanded content, in px. -1 for none.",
+                      "default": -1,
+                      "minimum": -1
+                    },
+                    "minimumContentHeight": {
+                      "type": "number",
+                      "description": "Minimum height of the expanded content, in px. -1 for none.",
+                      "default": -1,
+                      "minimum": -1
+                    },
+                    "contentPadding": {
+                      "type": "number",
+                      "description": "Padding on all sides of the expanded content, in px. Same precedence as headerPadding.",
+                      "default": 0,
+                      "minimum": 0
+                    },
+                    "contentHorizontalPadding": {
+                      "type": "number",
+                      "description": "Left and right content padding, in px. Overrides contentPadding.",
+                      "minimum": 0
+                    },
+                    "contentVerticalPadding": {
+                      "type": "number",
+                      "description": "Top and bottom content padding, in px. Overrides contentPadding.",
+                      "minimum": 0
+                    },
+                    "contentLeftPadding": {
+                      "type": "number",
+                      "description": "Content padding on the left side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "contentRightPadding": {
+                      "type": "number",
+                      "description": "Content padding on the right side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "contentTopPadding": {
+                      "type": "number",
+                      "description": "Content padding on the top side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "contentBottomPadding": {
+                      "type": "number",
+                      "description": "Content padding on the bottom side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "panelOpacity": {
+                      "type": "number",
+                      "description": "Opacity of the notch's fill (its content stays opaque). Falls back to the parent notch's value, so a child protruding from its parent matches it at the join, then to the shared notch.panelOpacity.",
+                      "default": 0.65,
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    "overshoot": {
+                      "type": "number",
+                      "description": "Overrides the shared notch.overshoot for this notch.",
+                      "minimum": 0
+                    },
+                    "squash": {
+                      "type": "number",
+                      "description": "Overrides the shared notch.squash for this notch.",
+                      "minimum": 0
+                    },
+                    "dropShadow": {
+                      "$ref": "#/definitions/dropShadow"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "sideNotch": {
+                  "type": "object",
+                  "description": "Side notches of the controls cards, e.g. the sound card's output streams.",
+                  "properties": {
+                    "radius": {
+                      "type": "number",
+                      "description": "Corner radius, in px. Capped at half the notch's width and height.",
+                      "default": 28,
+                      "minimum": 0
+                    },
+                    "minimumHeaderWidth": {
+                      "type": "number",
+                      "description": "Minimum width of the header (the always-visible part), in px. -1 for none.",
+                      "default": -1,
+                      "minimum": -1
+                    },
+                    "minimumHeaderHeight": {
+                      "type": "number",
+                      "description": "Minimum height of the header, in px. -1 for none.",
+                      "default": -1,
+                      "minimum": -1
+                    },
+                    "headerPadding": {
+                      "type": "number",
+                      "description": "Padding on all sides of the header, in px. Padding keys follow Qt Controls: a side-specific key (e.g. headerLeftPadding) wins over headerHorizontalPadding/headerVerticalPadding, which win over headerPadding. Leave a key out to fall through.",
+                      "default": 0,
+                      "minimum": 0
+                    },
+                    "headerHorizontalPadding": {
+                      "type": "number",
+                      "description": "Left and right header padding, in px. Overrides headerPadding.",
+                      "minimum": 0
+                    },
+                    "headerVerticalPadding": {
+                      "type": "number",
+                      "description": "Top and bottom header padding, in px. Overrides headerPadding.",
+                      "minimum": 0
+                    },
+                    "headerLeftPadding": {
+                      "type": "number",
+                      "description": "Header padding on the left side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "headerRightPadding": {
+                      "type": "number",
+                      "description": "Header padding on the right side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "headerTopPadding": {
+                      "type": "number",
+                      "description": "Header padding on the top side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "headerBottomPadding": {
+                      "type": "number",
+                      "description": "Header padding on the bottom side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "minimumContentWidth": {
+                      "type": "number",
+                      "description": "Minimum width of the expanded content, in px. -1 for none.",
+                      "default": -1,
+                      "minimum": -1
+                    },
+                    "minimumContentHeight": {
+                      "type": "number",
+                      "description": "Minimum height of the expanded content, in px. -1 for none.",
+                      "default": -1,
+                      "minimum": -1
+                    },
+                    "contentPadding": {
+                      "type": "number",
+                      "description": "Padding on all sides of the expanded content, in px. Same precedence as headerPadding.",
+                      "default": 0,
+                      "minimum": 0
+                    },
+                    "contentHorizontalPadding": {
+                      "type": "number",
+                      "description": "Left and right content padding, in px. Overrides contentPadding.",
+                      "minimum": 0
+                    },
+                    "contentVerticalPadding": {
+                      "type": "number",
+                      "description": "Top and bottom content padding, in px. Overrides contentPadding.",
+                      "minimum": 0
+                    },
+                    "contentLeftPadding": {
+                      "type": "number",
+                      "description": "Content padding on the left side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "contentRightPadding": {
+                      "type": "number",
+                      "description": "Content padding on the right side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "contentTopPadding": {
+                      "type": "number",
+                      "description": "Content padding on the top side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "contentBottomPadding": {
+                      "type": "number",
+                      "description": "Content padding on the bottom side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                      "minimum": 0
+                    },
+                    "panelOpacity": {
+                      "type": "number",
+                      "description": "Opacity of the notch's fill (its content stays opaque). Falls back to the parent notch's value, so a child protruding from its parent matches it at the join, then to the shared notch.panelOpacity.",
+                      "default": 0.65,
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    "overshoot": {
+                      "type": "number",
+                      "description": "Overrides the shared notch.overshoot for this notch.",
+                      "minimum": 0
+                    },
+                    "squash": {
+                      "type": "number",
+                      "description": "Overrides the shared notch.squash for this notch.",
+                      "minimum": 0
+                    },
+                    "dropShadow": {
+                      "$ref": "#/definitions/dropShadow"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "side": {
+          "type": "object",
+          "description": "Side bar on the right edge (system usage).",
+          "properties": {
+            "rightNotch": {
+              "type": "object",
+              "description": "Main side-bar notch (CPU usage and temperatures).",
+              "properties": {
+                "radius": {
+                  "type": "number",
+                  "description": "Corner radius, in px. Capped at half the notch's width and height.",
+                  "default": 28,
+                  "minimum": 0
+                },
+                "minimumHeaderWidth": {
+                  "type": "number",
+                  "description": "Minimum width of the header (the always-visible part), in px. -1 for none.",
+                  "default": -1,
+                  "minimum": -1
+                },
+                "minimumHeaderHeight": {
+                  "type": "number",
+                  "description": "Minimum height of the header, in px. -1 for none.",
+                  "default": -1,
+                  "minimum": -1
+                },
+                "headerPadding": {
+                  "type": "number",
+                  "description": "Padding on all sides of the header, in px. Padding keys follow Qt Controls: a side-specific key (e.g. headerLeftPadding) wins over headerHorizontalPadding/headerVerticalPadding, which win over headerPadding. Leave a key out to fall through.",
+                  "default": 0,
+                  "minimum": 0
+                },
+                "headerHorizontalPadding": {
+                  "type": "number",
+                  "description": "Left and right header padding, in px. Overrides headerPadding.",
+                  "minimum": 0
+                },
+                "headerVerticalPadding": {
+                  "type": "number",
+                  "description": "Top and bottom header padding, in px. Overrides headerPadding.",
+                  "minimum": 0
+                },
+                "headerLeftPadding": {
+                  "type": "number",
+                  "description": "Header padding on the left side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                  "minimum": 0
+                },
+                "headerRightPadding": {
+                  "type": "number",
+                  "description": "Header padding on the right side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                  "minimum": 0
+                },
+                "headerTopPadding": {
+                  "type": "number",
+                  "description": "Header padding on the top side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                  "minimum": 0
+                },
+                "headerBottomPadding": {
+                  "type": "number",
+                  "description": "Header padding on the bottom side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                  "minimum": 0
+                },
+                "minimumContentWidth": {
+                  "type": "number",
+                  "description": "Minimum width of the expanded content, in px. -1 for none.",
+                  "default": -1,
+                  "minimum": -1
+                },
+                "minimumContentHeight": {
+                  "type": "number",
+                  "description": "Minimum height of the expanded content, in px. -1 for none.",
+                  "default": -1,
+                  "minimum": -1
+                },
+                "contentPadding": {
+                  "type": "number",
+                  "description": "Padding on all sides of the expanded content, in px. Same precedence as headerPadding.",
+                  "default": 0,
+                  "minimum": 0
+                },
+                "contentHorizontalPadding": {
+                  "type": "number",
+                  "description": "Left and right content padding, in px. Overrides contentPadding.",
+                  "minimum": 0
+                },
+                "contentVerticalPadding": {
+                  "type": "number",
+                  "description": "Top and bottom content padding, in px. Overrides contentPadding.",
+                  "minimum": 0
+                },
+                "contentLeftPadding": {
+                  "type": "number",
+                  "description": "Content padding on the left side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                  "minimum": 0
+                },
+                "contentRightPadding": {
+                  "type": "number",
+                  "description": "Content padding on the right side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                  "minimum": 0
+                },
+                "contentTopPadding": {
+                  "type": "number",
+                  "description": "Content padding on the top side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                  "minimum": 0
+                },
+                "contentBottomPadding": {
+                  "type": "number",
+                  "description": "Content padding on the bottom side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                  "minimum": 0
+                },
+                "panelOpacity": {
+                  "type": "number",
+                  "description": "Opacity of the notch's fill (its content stays opaque). Falls back to the parent notch's value, so a child protruding from its parent matches it at the join, then to the shared notch.panelOpacity.",
+                  "default": 0.65,
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "overshoot": {
+                  "type": "number",
+                  "description": "Overrides the shared notch.overshoot for this notch.",
+                  "minimum": 0
+                },
+                "squash": {
+                  "type": "number",
+                  "description": "Overrides the shared notch.squash for this notch.",
+                  "minimum": 0
+                },
+                "dropShadow": {
+                  "$ref": "#/definitions/dropShadow"
+                }
+              },
+              "additionalProperties": false
+            },
+            "topNotch": {
+              "type": "object",
+              "description": "Memory notch, protruding from the main notch.",
+              "properties": {
+                "radius": {
+                  "type": "number",
+                  "description": "Corner radius, in px. Capped at half the notch's width and height.",
+                  "default": 28,
+                  "minimum": 0
+                },
+                "minimumHeaderWidth": {
+                  "type": "number",
+                  "description": "Minimum width of the header (the always-visible part), in px. -1 for none.",
+                  "default": -1,
+                  "minimum": -1
+                },
+                "minimumHeaderHeight": {
+                  "type": "number",
+                  "description": "Minimum height of the header, in px. -1 for none.",
+                  "default": -1,
+                  "minimum": -1
+                },
+                "headerPadding": {
+                  "type": "number",
+                  "description": "Padding on all sides of the header, in px. Padding keys follow Qt Controls: a side-specific key (e.g. headerLeftPadding) wins over headerHorizontalPadding/headerVerticalPadding, which win over headerPadding. Leave a key out to fall through.",
+                  "default": 0,
+                  "minimum": 0
+                },
+                "headerHorizontalPadding": {
+                  "type": "number",
+                  "description": "Left and right header padding, in px. Overrides headerPadding.",
+                  "minimum": 0
+                },
+                "headerVerticalPadding": {
+                  "type": "number",
+                  "description": "Top and bottom header padding, in px. Overrides headerPadding.",
+                  "minimum": 0
+                },
+                "headerLeftPadding": {
+                  "type": "number",
+                  "description": "Header padding on the left side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                  "minimum": 0
+                },
+                "headerRightPadding": {
+                  "type": "number",
+                  "description": "Header padding on the right side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                  "minimum": 0
+                },
+                "headerTopPadding": {
+                  "type": "number",
+                  "description": "Header padding on the top side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                  "minimum": 0
+                },
+                "headerBottomPadding": {
+                  "type": "number",
+                  "description": "Header padding on the bottom side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                  "minimum": 0
+                },
+                "minimumContentWidth": {
+                  "type": "number",
+                  "description": "Minimum width of the expanded content, in px. -1 for none.",
+                  "default": -1,
+                  "minimum": -1
+                },
+                "minimumContentHeight": {
+                  "type": "number",
+                  "description": "Minimum height of the expanded content, in px. -1 for none.",
+                  "default": -1,
+                  "minimum": -1
+                },
+                "contentPadding": {
+                  "type": "number",
+                  "description": "Padding on all sides of the expanded content, in px. Same precedence as headerPadding.",
+                  "default": 0,
+                  "minimum": 0
+                },
+                "contentHorizontalPadding": {
+                  "type": "number",
+                  "description": "Left and right content padding, in px. Overrides contentPadding.",
+                  "minimum": 0
+                },
+                "contentVerticalPadding": {
+                  "type": "number",
+                  "description": "Top and bottom content padding, in px. Overrides contentPadding.",
+                  "minimum": 0
+                },
+                "contentLeftPadding": {
+                  "type": "number",
+                  "description": "Content padding on the left side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                  "minimum": 0
+                },
+                "contentRightPadding": {
+                  "type": "number",
+                  "description": "Content padding on the right side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                  "minimum": 0
+                },
+                "contentTopPadding": {
+                  "type": "number",
+                  "description": "Content padding on the top side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                  "minimum": 0
+                },
+                "contentBottomPadding": {
+                  "type": "number",
+                  "description": "Content padding on the bottom side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                  "minimum": 0
+                },
+                "panelOpacity": {
+                  "type": "number",
+                  "description": "Opacity of the notch's fill (its content stays opaque). Falls back to the parent notch's value, so a child protruding from its parent matches it at the join, then to the shared notch.panelOpacity.",
+                  "default": 0.65,
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "overshoot": {
+                  "type": "number",
+                  "description": "Overrides the shared notch.overshoot for this notch.",
+                  "minimum": 0
+                },
+                "squash": {
+                  "type": "number",
+                  "description": "Overrides the shared notch.squash for this notch.",
+                  "minimum": 0
+                },
+                "dropShadow": {
+                  "$ref": "#/definitions/dropShadow"
+                }
+              },
+              "additionalProperties": false
+            },
+            "bottomNotch": {
+              "type": "object",
+              "description": "GPU notch, protruding from the memory notch.",
+              "properties": {
+                "radius": {
+                  "type": "number",
+                  "description": "Corner radius, in px. Capped at half the notch's width and height.",
+                  "default": 28,
+                  "minimum": 0
+                },
+                "minimumHeaderWidth": {
+                  "type": "number",
+                  "description": "Minimum width of the header (the always-visible part), in px. -1 for none.",
+                  "default": -1,
+                  "minimum": -1
+                },
+                "minimumHeaderHeight": {
+                  "type": "number",
+                  "description": "Minimum height of the header, in px. -1 for none.",
+                  "default": -1,
+                  "minimum": -1
+                },
+                "headerPadding": {
+                  "type": "number",
+                  "description": "Padding on all sides of the header, in px. Padding keys follow Qt Controls: a side-specific key (e.g. headerLeftPadding) wins over headerHorizontalPadding/headerVerticalPadding, which win over headerPadding. Leave a key out to fall through.",
+                  "default": 0,
+                  "minimum": 0
+                },
+                "headerHorizontalPadding": {
+                  "type": "number",
+                  "description": "Left and right header padding, in px. Overrides headerPadding.",
+                  "minimum": 0
+                },
+                "headerVerticalPadding": {
+                  "type": "number",
+                  "description": "Top and bottom header padding, in px. Overrides headerPadding.",
+                  "minimum": 0
+                },
+                "headerLeftPadding": {
+                  "type": "number",
+                  "description": "Header padding on the left side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                  "minimum": 0
+                },
+                "headerRightPadding": {
+                  "type": "number",
+                  "description": "Header padding on the right side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                  "minimum": 0
+                },
+                "headerTopPadding": {
+                  "type": "number",
+                  "description": "Header padding on the top side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                  "minimum": 0
+                },
+                "headerBottomPadding": {
+                  "type": "number",
+                  "description": "Header padding on the bottom side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                  "minimum": 0
+                },
+                "minimumContentWidth": {
+                  "type": "number",
+                  "description": "Minimum width of the expanded content, in px. -1 for none.",
+                  "default": -1,
+                  "minimum": -1
+                },
+                "minimumContentHeight": {
+                  "type": "number",
+                  "description": "Minimum height of the expanded content, in px. -1 for none.",
+                  "default": -1,
+                  "minimum": -1
+                },
+                "contentPadding": {
+                  "type": "number",
+                  "description": "Padding on all sides of the expanded content, in px. Same precedence as headerPadding.",
+                  "default": 0,
+                  "minimum": 0
+                },
+                "contentHorizontalPadding": {
+                  "type": "number",
+                  "description": "Left and right content padding, in px. Overrides contentPadding.",
+                  "minimum": 0
+                },
+                "contentVerticalPadding": {
+                  "type": "number",
+                  "description": "Top and bottom content padding, in px. Overrides contentPadding.",
+                  "minimum": 0
+                },
+                "contentLeftPadding": {
+                  "type": "number",
+                  "description": "Content padding on the left side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                  "minimum": 0
+                },
+                "contentRightPadding": {
+                  "type": "number",
+                  "description": "Content padding on the right side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                  "minimum": 0
+                },
+                "contentTopPadding": {
+                  "type": "number",
+                  "description": "Content padding on the top side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                  "minimum": 0
+                },
+                "contentBottomPadding": {
+                  "type": "number",
+                  "description": "Content padding on the bottom side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+                  "minimum": 0
+                },
+                "panelOpacity": {
+                  "type": "number",
+                  "description": "Opacity of the notch's fill (its content stays opaque). Falls back to the parent notch's value, so a child protruding from its parent matches it at the join, then to the shared notch.panelOpacity.",
+                  "default": 0.65,
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "overshoot": {
+                  "type": "number",
+                  "description": "Overrides the shared notch.overshoot for this notch.",
+                  "minimum": 0
+                },
+                "squash": {
+                  "type": "number",
+                  "description": "Overrides the shared notch.squash for this notch.",
+                  "minimum": 0
+                },
+                "dropShadow": {
+                  "$ref": "#/definitions/dropShadow"
+                }
+              },
+              "additionalProperties": false
+            },
+            "activationWidth": {
+              "type": "number",
+              "description": "Width of the strip along the right edge that reveals the side bar, in px.",
+              "default": 10,
+              "minimum": 0
+            },
+            "activationHeight": {
+              "type": "number",
+              "description": "Height of that strip, in px, centred on the side bar's window. Defaults to the window's height (1000).",
+              "default": 1000,
+              "minimum": 0
+            },
+            "showHoverRegion": {
+              "type": "boolean",
+              "description": "Draw the hover region (translucent red), for tuning activationWidth/activationHeight.",
+              "default": false
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "dock": {
+      "type": "object",
+      "description": "The dock: app icons fanned out on a tilted arc, drawn over WayVes' Angular bars.",
+      "properties": {
+        "radius": {
+          "type": "number",
+          "description": "Radius of the arc the icons sit on, in px.",
+          "default": 1000
+        },
+        "viewTiltAngle": {
+          "type": "number",
+          "description": "Viewing angle of the dock, in degrees: 0 looks straight down (icons on a semicircle), 90 looks along it (icons in a straight line).",
+          "default": 75,
+          "minimum": 0,
+          "maximum": 90
+        },
+        "viewSweepAngle": {
+          "type": "number",
+          "description": "Angular extent of the arc the icons are spread over, in degrees.",
+          "default": 120,
+          "minimum": 0,
+          "maximum": 360
+        },
+        "sweepAngle": {
+          "type": "number",
+          "description": "How far the outermost icons turn to face the centre, in degrees.",
+          "default": 110
+        },
+        "verticalAngle": {
+          "type": "number",
+          "description": "How far the icons lean back into the screen, in degrees: 0 stands them upright.",
+          "default": 27,
+          "minimum": 0,
+          "maximum": 90
+        },
+        "indicatorDistance": {
+          "type": "number",
+          "description": "Extra radial distance of the running-app indicators beyond the icons, in px.",
+          "default": 10
+        },
+        "indicatorWidthScale": {
+          "type": "number",
+          "description": "Indicator width as a multiple of iconWidth.",
+          "default": 1.2,
+          "minimum": 0
+        },
+        "indicatorHeightScale": {
+          "type": "number",
+          "description": "Indicator height as a multiple of iconHeight.",
+          "default": 1.2,
+          "minimum": 0
+        },
+        "radialDisplacement": {
+          "type": "number",
+          "description": "Offset added to radius for the icons and indicators, in px (negative pulls them inwards).",
+          "default": -160
+        },
+        "indicatorFloatHeight": {
+          "type": "number",
+          "description": "How far the indicators float above the bars, in px.",
+          "default": 15
+        },
+        "iconFloatHeight": {
+          "type": "number",
+          "description": "How far the icons float above the indicators, in px.",
+          "default": 20
+        },
+        "iconWidth": {
+          "type": "integer",
+          "description": "Icon width, in px.",
+          "default": 80,
+          "minimum": 1
+        },
+        "iconHeight": {
+          "type": "integer",
+          "description": "Icon height, in px.",
+          "default": 80,
+          "minimum": 1
+        },
+        "perspectiveDistance": {
+          "type": "number",
+          "description": "Distance to the projection plane for the tilt (Qt's Rotation.distanceToPlane; Qt's default is 1024). Smaller values exaggerate the perspective.",
+          "default": 2048,
+          "minimum": 1
+        },
+        "hoverWidth": {
+          "type": "number",
+          "description": "Width of the area the cursor can move in while the dock is shown before it hides again, in px.",
+          "default": 1600,
+          "minimum": 0
+        },
+        "hoverHeight": {
+          "type": "number",
+          "description": "How far above the bottom edge (past the 20 px base, the icon and indicator float heights) the cursor can go while the dock is shown before it hides again, in px.",
+          "default": 300,
+          "minimum": 0
+        },
+        "activationWidth": {
+          "type": "number",
+          "description": "Width of the strip along the bottom edge that reveals the hidden dock, in px. Defaults to hoverWidth.",
+          "default": 1600,
+          "minimum": 0
+        },
+        "activationHeight": {
+          "type": "number",
+          "description": "Height of the strip along the bottom edge that reveals the hidden dock, in px.",
+          "default": 20,
+          "minimum": 0
+        },
+        "surfaceHeight": {
+          "type": "number",
+          "description": "Height of the dock's window, in px (capped at the screen height). Keep it as small as fits the dock and its notches: Qt redraws the whole window on every frame.",
+          "default": 700,
+          "minimum": 1
+        },
+        "showHoverRegion": {
+          "type": "boolean",
+          "description": "Draw the hover region, for tuning activationWidth/activationHeight (dock hidden) and hoverWidth/hoverHeight (dock shown).",
+          "default": false
+        },
+        "showPreviews": {
+          "type": "boolean",
+          "description": "Clicking a running app shows live previews of its windows.",
+          "default": true
+        },
+        "minimumToplevelWidth": {
+          "type": "number",
+          "description": "Width of each window preview, in px.",
+          "default": 420,
+          "minimum": 1
+        },
+        "numMaxChildren": {
+          "type": "integer",
+          "description": "Most window previews shown side by side.",
+          "default": 2,
+          "minimum": 1
+        },
+        "previewNotch": {
+          "type": "object",
+          "description": "Notch holding the window previews.",
+          "properties": {
+            "radius": {
+              "type": "number",
+              "description": "Corner radius, in px. Capped at half the notch's width and height.",
+              "default": 28,
+              "minimum": 0
+            },
+            "minimumHeaderWidth": {
+              "type": "number",
+              "description": "Minimum width of the header (the always-visible part), in px. -1 for none.",
+              "default": -1,
+              "minimum": -1
+            },
+            "minimumHeaderHeight": {
+              "type": "number",
+              "description": "Minimum height of the header, in px. -1 for none.",
+              "default": -1,
+              "minimum": -1
+            },
+            "headerPadding": {
+              "type": "number",
+              "description": "Padding on all sides of the header, in px. Padding keys follow Qt Controls: a side-specific key (e.g. headerLeftPadding) wins over headerHorizontalPadding/headerVerticalPadding, which win over headerPadding. Leave a key out to fall through.",
+              "default": 0,
+              "minimum": 0
+            },
+            "headerHorizontalPadding": {
+              "type": "number",
+              "description": "Left and right header padding, in px. Overrides headerPadding.",
+              "minimum": 0
+            },
+            "headerVerticalPadding": {
+              "type": "number",
+              "description": "Top and bottom header padding, in px. Overrides headerPadding.",
+              "minimum": 0
+            },
+            "headerLeftPadding": {
+              "type": "number",
+              "description": "Header padding on the left side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+              "minimum": 0
+            },
+            "headerRightPadding": {
+              "type": "number",
+              "description": "Header padding on the right side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+              "minimum": 0
+            },
+            "headerTopPadding": {
+              "type": "number",
+              "description": "Header padding on the top side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+              "minimum": 0
+            },
+            "headerBottomPadding": {
+              "type": "number",
+              "description": "Header padding on the bottom side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+              "minimum": 0
+            },
+            "minimumContentWidth": {
+              "type": "number",
+              "description": "Minimum width of the expanded content, in px. -1 for none.",
+              "default": -1,
+              "minimum": -1
+            },
+            "minimumContentHeight": {
+              "type": "number",
+              "description": "Minimum height of the expanded content, in px. -1 for none.",
+              "default": -1,
+              "minimum": -1
+            },
+            "contentPadding": {
+              "type": "number",
+              "description": "Padding on all sides of the expanded content, in px. Same precedence as headerPadding.",
+              "default": 0,
+              "minimum": 0
+            },
+            "contentHorizontalPadding": {
+              "type": "number",
+              "description": "Left and right content padding, in px. Overrides contentPadding.",
+              "minimum": 0
+            },
+            "contentVerticalPadding": {
+              "type": "number",
+              "description": "Top and bottom content padding, in px. Overrides contentPadding.",
+              "minimum": 0
+            },
+            "contentLeftPadding": {
+              "type": "number",
+              "description": "Content padding on the left side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+              "minimum": 0
+            },
+            "contentRightPadding": {
+              "type": "number",
+              "description": "Content padding on the right side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+              "minimum": 0
+            },
+            "contentTopPadding": {
+              "type": "number",
+              "description": "Content padding on the top side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+              "minimum": 0
+            },
+            "contentBottomPadding": {
+              "type": "number",
+              "description": "Content padding on the bottom side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+              "minimum": 0
+            },
+            "panelOpacity": {
+              "type": "number",
+              "description": "Opacity of the notch's fill (its content stays opaque). Falls back to the parent notch's value, so a child protruding from its parent matches it at the join, then to the shared notch.panelOpacity.",
+              "default": 0.65,
+              "minimum": 0,
+              "maximum": 1
+            },
+            "overshoot": {
+              "type": "number",
+              "description": "Overrides the shared notch.overshoot for this notch.",
+              "minimum": 0
+            },
+            "squash": {
+              "type": "number",
+              "description": "Overrides the shared notch.squash for this notch.",
+              "minimum": 0
+            },
+            "dropShadow": {
+              "$ref": "#/definitions/dropShadow"
+            }
+          },
+          "additionalProperties": false
+        },
+        "menuNotch": {
+          "type": "object",
+          "description": "Right-click menu notch.",
+          "properties": {
+            "radius": {
+              "type": "number",
+              "description": "Corner radius, in px. Capped at half the notch's width and height.",
+              "default": 28,
+              "minimum": 0
+            },
+            "minimumHeaderWidth": {
+              "type": "number",
+              "description": "Minimum width of the header (the always-visible part), in px. -1 for none.",
+              "default": -1,
+              "minimum": -1
+            },
+            "minimumHeaderHeight": {
+              "type": "number",
+              "description": "Minimum height of the header, in px. -1 for none.",
+              "default": -1,
+              "minimum": -1
+            },
+            "headerPadding": {
+              "type": "number",
+              "description": "Padding on all sides of the header, in px. Padding keys follow Qt Controls: a side-specific key (e.g. headerLeftPadding) wins over headerHorizontalPadding/headerVerticalPadding, which win over headerPadding. Leave a key out to fall through.",
+              "default": 0,
+              "minimum": 0
+            },
+            "headerHorizontalPadding": {
+              "type": "number",
+              "description": "Left and right header padding, in px. Overrides headerPadding.",
+              "minimum": 0
+            },
+            "headerVerticalPadding": {
+              "type": "number",
+              "description": "Top and bottom header padding, in px. Overrides headerPadding.",
+              "minimum": 0
+            },
+            "headerLeftPadding": {
+              "type": "number",
+              "description": "Header padding on the left side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+              "minimum": 0
+            },
+            "headerRightPadding": {
+              "type": "number",
+              "description": "Header padding on the right side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+              "minimum": 0
+            },
+            "headerTopPadding": {
+              "type": "number",
+              "description": "Header padding on the top side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+              "minimum": 0
+            },
+            "headerBottomPadding": {
+              "type": "number",
+              "description": "Header padding on the bottom side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+              "minimum": 0
+            },
+            "minimumContentWidth": {
+              "type": "number",
+              "description": "Minimum width of the expanded content, in px. -1 for none.",
+              "default": -1,
+              "minimum": -1
+            },
+            "minimumContentHeight": {
+              "type": "number",
+              "description": "Minimum height of the expanded content, in px. -1 for none.",
+              "default": -1,
+              "minimum": -1
+            },
+            "contentPadding": {
+              "type": "number",
+              "description": "Padding on all sides of the expanded content, in px. Same precedence as headerPadding.",
+              "default": 0,
+              "minimum": 0
+            },
+            "contentHorizontalPadding": {
+              "type": "number",
+              "description": "Left and right content padding, in px. Overrides contentPadding.",
+              "minimum": 0
+            },
+            "contentVerticalPadding": {
+              "type": "number",
+              "description": "Top and bottom content padding, in px. Overrides contentPadding.",
+              "minimum": 0
+            },
+            "contentLeftPadding": {
+              "type": "number",
+              "description": "Content padding on the left side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+              "minimum": 0
+            },
+            "contentRightPadding": {
+              "type": "number",
+              "description": "Content padding on the right side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+              "minimum": 0
+            },
+            "contentTopPadding": {
+              "type": "number",
+              "description": "Content padding on the top side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+              "minimum": 0
+            },
+            "contentBottomPadding": {
+              "type": "number",
+              "description": "Content padding on the bottom side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+              "minimum": 0
+            },
+            "panelOpacity": {
+              "type": "number",
+              "description": "Opacity of the notch's fill (its content stays opaque). Falls back to the parent notch's value, so a child protruding from its parent matches it at the join, then to the shared notch.panelOpacity.",
+              "default": 0.65,
+              "minimum": 0,
+              "maximum": 1
+            },
+            "overshoot": {
+              "type": "number",
+              "description": "Overrides the shared notch.overshoot for this notch.",
+              "minimum": 0
+            },
+            "squash": {
+              "type": "number",
+              "description": "Overrides the shared notch.squash for this notch.",
+              "minimum": 0
+            },
+            "dropShadow": {
+              "$ref": "#/definitions/dropShadow"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "lockscreen": {
+      "type": "object",
+      "description": "Lock screen.",
+      "properties": {
+        "notch": {
+          "type": "object",
+          "description": "Bottom notch with the greeting, now playing and the password field.",
+          "properties": {
+            "radius": {
+              "type": "number",
+              "description": "Corner radius, in px. Capped at half the notch's width and height.",
+              "default": 28,
+              "minimum": 0
+            },
+            "minimumHeaderWidth": {
+              "type": "number",
+              "description": "Minimum width of the header (the always-visible part), in px. -1 for none.",
+              "default": -1,
+              "minimum": -1
+            },
+            "minimumHeaderHeight": {
+              "type": "number",
+              "description": "Minimum height of the header, in px. -1 for none.",
+              "default": -1,
+              "minimum": -1
+            },
+            "headerPadding": {
+              "type": "number",
+              "description": "Padding on all sides of the header, in px. Padding keys follow Qt Controls: a side-specific key (e.g. headerLeftPadding) wins over headerHorizontalPadding/headerVerticalPadding, which win over headerPadding. Leave a key out to fall through.",
+              "default": 0,
+              "minimum": 0
+            },
+            "headerHorizontalPadding": {
+              "type": "number",
+              "description": "Left and right header padding, in px. Overrides headerPadding.",
+              "minimum": 0
+            },
+            "headerVerticalPadding": {
+              "type": "number",
+              "description": "Top and bottom header padding, in px. Overrides headerPadding.",
+              "minimum": 0
+            },
+            "headerLeftPadding": {
+              "type": "number",
+              "description": "Header padding on the left side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+              "minimum": 0
+            },
+            "headerRightPadding": {
+              "type": "number",
+              "description": "Header padding on the right side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+              "minimum": 0
+            },
+            "headerTopPadding": {
+              "type": "number",
+              "description": "Header padding on the top side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+              "minimum": 0
+            },
+            "headerBottomPadding": {
+              "type": "number",
+              "description": "Header padding on the bottom side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+              "minimum": 0
+            },
+            "minimumContentWidth": {
+              "type": "number",
+              "description": "Minimum width of the expanded content, in px. -1 for none.",
+              "default": -1,
+              "minimum": -1
+            },
+            "minimumContentHeight": {
+              "type": "number",
+              "description": "Minimum height of the expanded content, in px. -1 for none.",
+              "default": -1,
+              "minimum": -1
+            },
+            "contentPadding": {
+              "type": "number",
+              "description": "Padding on all sides of the expanded content, in px. Same precedence as headerPadding.",
+              "default": 0,
+              "minimum": 0
+            },
+            "contentHorizontalPadding": {
+              "type": "number",
+              "description": "Left and right content padding, in px. Overrides contentPadding.",
+              "minimum": 0
+            },
+            "contentVerticalPadding": {
+              "type": "number",
+              "description": "Top and bottom content padding, in px. Overrides contentPadding.",
+              "minimum": 0
+            },
+            "contentLeftPadding": {
+              "type": "number",
+              "description": "Content padding on the left side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+              "minimum": 0
+            },
+            "contentRightPadding": {
+              "type": "number",
+              "description": "Content padding on the right side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+              "minimum": 0
+            },
+            "contentTopPadding": {
+              "type": "number",
+              "description": "Content padding on the top side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+              "minimum": 0
+            },
+            "contentBottomPadding": {
+              "type": "number",
+              "description": "Content padding on the bottom side, in px. Overrides the matching *HorizontalPadding/*VerticalPadding and *Padding keys.",
+              "minimum": 0
+            },
+            "panelOpacity": {
+              "type": "number",
+              "description": "Opacity of the notch's fill (its content stays opaque). Falls back to the parent notch's value, so a child protruding from its parent matches it at the join, then to the shared notch.panelOpacity.",
+              "default": 0.65,
+              "minimum": 0,
+              "maximum": 1
+            },
+            "overshoot": {
+              "type": "number",
+              "description": "Overrides the shared notch.overshoot for this notch.",
+              "minimum": 0
+            },
+            "squash": {
+              "type": "number",
+              "description": "Overrides the shared notch.squash for this notch.",
+              "minimum": 0
+            },
+            "dropShadow": {
+              "$ref": "#/definitions/dropShadow"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "wallpapers": {
+      "type": "object",
+      "description": "Wallpapers.",
+      "properties": {
+        "directory": {
+          "type": "string",
+          "default": "~/Pictures/Wallpapers",
+          "description": "Folder the wallpaper picker lists images (jpg, png, webp) and videos (mp4, mkv, webm, mov) from. A leading ~ is expanded. Video thumbnails and previews are kept in .thumbnails and .previews inside it."
+        }
+      },
+      "additionalProperties": false
+    },
+    "scale": {
+      "type": "object",
+      "description": "Size multipliers for smaller or larger screens, e.g. 0.9 on a 1080p screen at Hyprland scale 1. Results are rounded to whole pixels.",
+      "properties": {
+        "size": {
+          "type": "number",
+          "description": "Multiplier for every shell size: notches, cards, padding and spacing, bar margins and exclusive zone, side bar, dock geometry (radius, icons, distances, hover and activation areas), power menu and lock screen. WayVes visualiser shader sizes are not affected.",
+          "default": 1,
+          "minimum": 0.5,
+          "maximum": 2
+        },
+        "font": {
+          "type": "number",
+          "description": "Multiplier for text sizes.",
+          "default": 1,
+          "minimum": 0.5,
+          "maximum": 2
+        }
+      },
+      "additionalProperties": false
+    },
+    "performance": {
+      "type": "object",
+      "description": "Lighter settings for weaker machines. potato sets the defaults of the other keys; each can still be set on its own.",
+      "properties": {
+        "potato": {
+          "type": "boolean",
+          "description": "Potato mode: caps visualisers at 10 fps (the side bar gauges at 2, the dock visualiser and power menu HUD surface at 1), plays video wallpapers from their 1280p30 preview copy, and turns off live video previews in the wallpaper picker. Pair it with WayVes' config_potato.yaml.",
+          "default": false
+        },
+        "visualiserFps": {
+          "type": "integer",
+          "description": "Most often a WayVes surface is read and its window redrawn, per second. 0 for no cap (each surface's own rate, mostly 60). Defaults to 10 with potato.",
+          "default": 0,
+          "minimum": 0
+        },
+        "usageFps": {
+          "type": "integer",
+          "description": "Rate of the side bar's usage and temperature gauges, per second, overriding visualiserFps for them. 0 to follow visualiserFps. Defaults to 2 with potato.",
+          "default": 0,
+          "minimum": 0
+        },
+        "dockFps": {
+          "type": "integer",
+          "description": "Rate of the dock's visualiser (the bars under the icons), per second, overriding visualiserFps for it. The app indicators are not affected. 0 to follow visualiserFps. Defaults to 1 with potato.",
+          "default": 0,
+          "minimum": 0
+        },
+        "hudSurfaceFps": {
+          "type": "integer",
+          "description": "Rate of the power menu's HUD surface, per second, overriding visualiserFps for it. The waves and outer ring are not affected. 0 to follow visualiserFps. Defaults to 1 with potato.",
+          "default": 0,
+          "minimum": 0
+        },
+        "videoWallpaper": {
+          "type": "string",
+          "enum": [
+            "original",
+            "preview",
+            "still"
+          ],
+          "default": "original",
+          "description": "How a video wallpaper plays: original (the file itself), preview (its 1280p30 copy in .previews, the original until that exists) or still (its first-frame thumbnail, no playback). Defaults to preview with potato."
+        },
+        "pickerVideoPreviews": {
+          "type": "boolean",
+          "description": "Play the focused video in the wallpaper picker; off shows its thumbnail. Defaults to off with potato.",
+          "default": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "powerMenu": {
+      "type": "object",
+      "description": "Power menu.",
+      "properties": {
+        "countdowns": {
+          "type": "object",
+          "description": "Seconds each action waits, shown as a countdown, before it runs. 0 runs it at once.",
+          "properties": {
+            "shutdown": {
+              "type": "integer",
+              "description": "Shut Down.",
+              "default": 5,
+              "minimum": 0
+            },
+            "reboot": {
+              "type": "integer",
+              "description": "Reboot.",
+              "default": 5,
+              "minimum": 0
+            },
+            "logout": {
+              "type": "integer",
+              "description": "Log Out.",
+              "default": 5,
+              "minimum": 0
+            },
+            "lock": {
+              "type": "integer",
+              "description": "Lock.",
+              "default": 0,
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "notch": {
+      "type": "object",
+      "description": "Defaults shared by every notch. A notch's own key of the same name overrides these.",
+      "properties": {
+        "overshoot": {
+          "type": "number",
+          "description": "Resize animation: above 0 uses OutBack easing with this overshoot (e.g. 1.2 to 2.0); 0 uses a bounce.",
+          "default": 1,
+          "minimum": 0
+        },
+        "squash": {
+          "type": "number",
+          "description": "Squash-and-stretch on collapse: how many px taller the shape bulges as it settles. 0 disables it.",
+          "default": 12,
+          "minimum": 0
+        },
+        "panelOpacity": {
+          "type": "number",
+          "description": "Default opacity of every notch's fill. 1 is opaque, and also the cheapest to composite with blur.",
+          "default": 0.65,
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
