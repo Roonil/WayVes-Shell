@@ -1,4 +1,4 @@
-# wayves-shell
+# WayVes Shell
 
 A [Quickshell](https://quickshell.outfoxxed.me) desktop shell for Hyprland where the visuals are live [WayVes](https://github.com/Roonil/WayVes) audio visualisers. WayVes renders them in its own process and exports each one as a DMA-BUF, and the shell shows them inside its panels through `DMABufSurface`, from [this Quickshell fork](https://github.com/Roonil/quickshell). Nothing is copied; the shell samples WayVes' output straight from the GPU.
 
