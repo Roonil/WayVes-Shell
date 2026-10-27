@@ -4,6 +4,40 @@ A [Quickshell](https://quickshell.outfoxxed.me) desktop shell for Hyprland where
 
 Almost every element is a **Notch**: a panel that grows out of a screen edge or out of another notch, with curved joins where they meet. Child notches protrude from their parent's edges and merge into its outline, and edges snap to device pixels so joins stay seamless at fractional scales.
 
+## Showcase
+
+Each WayVes instance used is a headless OpenGL program that hands over its final output to Quickshell via DMA-BUF fds that it can use to display natively. The background card in the Media widget, the progress rings in the sidebar and the theme switch button in the Wallpaper Picker are also WayVes instances used as surfaces.
+
+---
+
+Sidebars that have a 'fluid' in them that reacts to audio. The Rings and the Fluid are all Angular WayVes instances. The bottom Dock with its app indicators is also an Angular WayVes instance.
+
+![Side Bar](assets/side-bar.png)
+
+---
+
+Sound Controls that feature pavucontrol-like functionality. The audio bars (Linear WayVes instance) grab audio from the selected node, be it an application, output device or an input mic.
+
+![Sound Controls](assets/sound-controls.png)
+
+---
+
+Wallpaper Picker with a background stage and a swarm of particles that shows the primary color from the wallpaper when hovered. The background and the particle swarm are Angular WayVes instances, and the top-right Theme switch button is also an Angular WayVes instance that changes to Sun/Moon for light/dark modes
+
+![Wallpaper Picker](assets/wallpaper-picker.png)
+
+---
+
+Media Widget that offers MPRIS controls. The background card, the bouncing waves on the progress bar and the logo at the bottom of the Notch are all Linear WayVes instances. The ring on the right is an NCS WayVes instance.
+
+![Media Widget](assets/media-widget.png)
+
+---
+
+Power Menu that shows options for locking, shutting down and rebooting. The background surface, the quarter waves and the rotating particles are all Angular WayVes instances.
+
+![Power Menu](assets/power-menu.png)
+
 ## Features
 
 - **Top bar**: Workspaces on the left, and a clock in the centre that expands into the media widget and the wallpaper picker. Wi-Fi, Bluetooth, sound and the system tray are on the right.
