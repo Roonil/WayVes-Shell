@@ -38,6 +38,12 @@ Power Menu that shows options for locking, shutting down and rebooting. The back
 
 ![Power Menu](assets/power-menu.png)
 
+---
+
+Finally, a Notch system that can hug multiple surfaces. In the shell, the Notches hug the nearby surface whenever an application is active on the Workspace, and are individual pills when no application is active.
+
+![Notches](assets/notch-side-hugs.png)
+
 ## Features
 
 - **Top bar**: Workspaces on the left, and a clock in the centre that expands into the media widget and the wallpaper picker. Wi-Fi, Bluetooth, sound and the system tray are on the right.
