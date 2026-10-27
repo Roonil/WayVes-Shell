@@ -8,7 +8,7 @@
   "definitions": {
     "dropShadow": {
       "type": "object",
-      "description": "Drop shadow drawn under the notch.",
+      "description": "Drop shadow drawn under the notch. Each key missing here falls back to the shared notch.dropShadow.",
       "properties": {
         "enabled": {
           "type": "boolean",
@@ -170,8 +170,54 @@
                   "properties": {
                     "radius": {
                       "type": "number",
-                      "description": "Corner radius, in px. Capped at half the notch's width and height.",
+                      "description": "Corner radius, in px, for every corner without its own *Radius key. Overrides the shared notch.radius, including the shared per-corner keys. Capped at half the notch's width and height.",
                       "default": 28,
+                      "minimum": 0
+                    },
+                    "topLeftRadius": {
+                      "type": "number",
+                      "description": "Top-left corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.topLeftRadius. Capped at half the notch's width and height.",
+                      "minimum": 0
+                    },
+                    "topRightRadius": {
+                      "type": "number",
+                      "description": "Top-right corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.topRightRadius. Capped at half the notch's width and height.",
+                      "minimum": 0
+                    },
+                    "bottomRightRadius": {
+                      "type": "number",
+                      "description": "Bottom-right corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.bottomRightRadius. Capped at half the notch's width and height.",
+                      "minimum": 0
+                    },
+                    "bottomLeftRadius": {
+                      "type": "number",
+                      "description": "Bottom-left corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.bottomLeftRadius. Capped at half the notch's width and height.",
+                      "minimum": 0
+                    },
+                    "cornerRoundness": {
+                      "type": "number",
+                      "description": "Shape of every corner without its own *Roundness key: 0 is a straight cut, 1 is round, about 1.45 is a squircle, and above about 1.8 it bulges past square. Animates when changed. Overrides the shared notch.cornerRoundness, including the shared per-corner keys.",
+                      "default": 1,
+                      "minimum": 0
+                    },
+                    "topLeftRoundness": {
+                      "type": "number",
+                      "description": "Top-left corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.topLeftRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                      "minimum": 0
+                    },
+                    "topRightRoundness": {
+                      "type": "number",
+                      "description": "Top-right corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.topRightRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                      "minimum": 0
+                    },
+                    "bottomRightRoundness": {
+                      "type": "number",
+                      "description": "Bottom-right corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.bottomRightRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                      "minimum": 0
+                    },
+                    "bottomLeftRoundness": {
+                      "type": "number",
+                      "description": "Bottom-left corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.bottomLeftRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
                       "minimum": 0
                     },
                     "minimumHeaderWidth": {
@@ -306,8 +352,54 @@
                   "properties": {
                     "radius": {
                       "type": "number",
-                      "description": "Corner radius, in px. Capped at half the notch's width and height.",
+                      "description": "Corner radius, in px, for every corner without its own *Radius key. Overrides the shared notch.radius, including the shared per-corner keys. Capped at half the notch's width and height.",
                       "default": 28,
+                      "minimum": 0
+                    },
+                    "topLeftRadius": {
+                      "type": "number",
+                      "description": "Top-left corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.topLeftRadius. Capped at half the notch's width and height.",
+                      "minimum": 0
+                    },
+                    "topRightRadius": {
+                      "type": "number",
+                      "description": "Top-right corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.topRightRadius. Capped at half the notch's width and height.",
+                      "minimum": 0
+                    },
+                    "bottomRightRadius": {
+                      "type": "number",
+                      "description": "Bottom-right corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.bottomRightRadius. Capped at half the notch's width and height.",
+                      "minimum": 0
+                    },
+                    "bottomLeftRadius": {
+                      "type": "number",
+                      "description": "Bottom-left corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.bottomLeftRadius. Capped at half the notch's width and height.",
+                      "minimum": 0
+                    },
+                    "cornerRoundness": {
+                      "type": "number",
+                      "description": "Shape of every corner without its own *Roundness key: 0 is a straight cut, 1 is round, about 1.45 is a squircle, and above about 1.8 it bulges past square. Animates when changed. Overrides the shared notch.cornerRoundness, including the shared per-corner keys.",
+                      "default": 1,
+                      "minimum": 0
+                    },
+                    "topLeftRoundness": {
+                      "type": "number",
+                      "description": "Top-left corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.topLeftRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                      "minimum": 0
+                    },
+                    "topRightRoundness": {
+                      "type": "number",
+                      "description": "Top-right corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.topRightRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                      "minimum": 0
+                    },
+                    "bottomRightRoundness": {
+                      "type": "number",
+                      "description": "Bottom-right corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.bottomRightRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                      "minimum": 0
+                    },
+                    "bottomLeftRoundness": {
+                      "type": "number",
+                      "description": "Bottom-left corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.bottomLeftRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
                       "minimum": 0
                     },
                     "minimumHeaderWidth": {
@@ -432,8 +524,54 @@
                       "properties": {
                         "radius": {
                           "type": "number",
-                          "description": "Corner radius, in px. Capped at half the notch's width and height.",
+                          "description": "Corner radius, in px, for every corner without its own *Radius key. Overrides the shared notch.radius, including the shared per-corner keys. Capped at half the notch's width and height.",
                           "default": 28,
+                          "minimum": 0
+                        },
+                        "topLeftRadius": {
+                          "type": "number",
+                          "description": "Top-left corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.topLeftRadius. Capped at half the notch's width and height.",
+                          "minimum": 0
+                        },
+                        "topRightRadius": {
+                          "type": "number",
+                          "description": "Top-right corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.topRightRadius. Capped at half the notch's width and height.",
+                          "minimum": 0
+                        },
+                        "bottomRightRadius": {
+                          "type": "number",
+                          "description": "Bottom-right corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.bottomRightRadius. Capped at half the notch's width and height.",
+                          "minimum": 0
+                        },
+                        "bottomLeftRadius": {
+                          "type": "number",
+                          "description": "Bottom-left corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.bottomLeftRadius. Capped at half the notch's width and height.",
+                          "minimum": 0
+                        },
+                        "cornerRoundness": {
+                          "type": "number",
+                          "description": "Shape of every corner without its own *Roundness key: 0 is a straight cut, 1 is round, about 1.45 is a squircle, and above about 1.8 it bulges past square. Animates when changed. Overrides the shared notch.cornerRoundness, including the shared per-corner keys.",
+                          "default": 1,
+                          "minimum": 0
+                        },
+                        "topLeftRoundness": {
+                          "type": "number",
+                          "description": "Top-left corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.topLeftRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                          "minimum": 0
+                        },
+                        "topRightRoundness": {
+                          "type": "number",
+                          "description": "Top-right corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.topRightRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                          "minimum": 0
+                        },
+                        "bottomRightRoundness": {
+                          "type": "number",
+                          "description": "Bottom-right corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.bottomRightRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                          "minimum": 0
+                        },
+                        "bottomLeftRoundness": {
+                          "type": "number",
+                          "description": "Bottom-left corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.bottomLeftRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
                           "minimum": 0
                         },
                         "minimumHeaderWidth": {
@@ -561,8 +699,54 @@
                       "properties": {
                         "radius": {
                           "type": "number",
-                          "description": "Corner radius, in px. Capped at half the notch's width and height.",
+                          "description": "Corner radius, in px, for every corner without its own *Radius key. Overrides the shared notch.radius, including the shared per-corner keys. Capped at half the notch's width and height.",
                           "default": 28,
+                          "minimum": 0
+                        },
+                        "topLeftRadius": {
+                          "type": "number",
+                          "description": "Top-left corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.topLeftRadius. Capped at half the notch's width and height.",
+                          "minimum": 0
+                        },
+                        "topRightRadius": {
+                          "type": "number",
+                          "description": "Top-right corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.topRightRadius. Capped at half the notch's width and height.",
+                          "minimum": 0
+                        },
+                        "bottomRightRadius": {
+                          "type": "number",
+                          "description": "Bottom-right corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.bottomRightRadius. Capped at half the notch's width and height.",
+                          "minimum": 0
+                        },
+                        "bottomLeftRadius": {
+                          "type": "number",
+                          "description": "Bottom-left corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.bottomLeftRadius. Capped at half the notch's width and height.",
+                          "minimum": 0
+                        },
+                        "cornerRoundness": {
+                          "type": "number",
+                          "description": "Shape of every corner without its own *Roundness key: 0 is a straight cut, 1 is round, about 1.45 is a squircle, and above about 1.8 it bulges past square. Animates when changed. Overrides the shared notch.cornerRoundness, including the shared per-corner keys.",
+                          "default": 1,
+                          "minimum": 0
+                        },
+                        "topLeftRoundness": {
+                          "type": "number",
+                          "description": "Top-left corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.topLeftRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                          "minimum": 0
+                        },
+                        "topRightRoundness": {
+                          "type": "number",
+                          "description": "Top-right corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.topRightRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                          "minimum": 0
+                        },
+                        "bottomRightRoundness": {
+                          "type": "number",
+                          "description": "Bottom-right corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.bottomRightRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                          "minimum": 0
+                        },
+                        "bottomLeftRoundness": {
+                          "type": "number",
+                          "description": "Bottom-left corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.bottomLeftRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
                           "minimum": 0
                         },
                         "minimumHeaderWidth": {
@@ -700,8 +884,54 @@
                   "properties": {
                     "radius": {
                       "type": "number",
-                      "description": "Corner radius, in px. Capped at half the notch's width and height.",
+                      "description": "Corner radius, in px, for every corner without its own *Radius key. Overrides the shared notch.radius, including the shared per-corner keys. Capped at half the notch's width and height.",
                       "default": 28,
+                      "minimum": 0
+                    },
+                    "topLeftRadius": {
+                      "type": "number",
+                      "description": "Top-left corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.topLeftRadius. Capped at half the notch's width and height.",
+                      "minimum": 0
+                    },
+                    "topRightRadius": {
+                      "type": "number",
+                      "description": "Top-right corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.topRightRadius. Capped at half the notch's width and height.",
+                      "minimum": 0
+                    },
+                    "bottomRightRadius": {
+                      "type": "number",
+                      "description": "Bottom-right corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.bottomRightRadius. Capped at half the notch's width and height.",
+                      "minimum": 0
+                    },
+                    "bottomLeftRadius": {
+                      "type": "number",
+                      "description": "Bottom-left corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.bottomLeftRadius. Capped at half the notch's width and height.",
+                      "minimum": 0
+                    },
+                    "cornerRoundness": {
+                      "type": "number",
+                      "description": "Shape of every corner without its own *Roundness key: 0 is a straight cut, 1 is round, about 1.45 is a squircle, and above about 1.8 it bulges past square. Animates when changed. Overrides the shared notch.cornerRoundness, including the shared per-corner keys.",
+                      "default": 1,
+                      "minimum": 0
+                    },
+                    "topLeftRoundness": {
+                      "type": "number",
+                      "description": "Top-left corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.topLeftRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                      "minimum": 0
+                    },
+                    "topRightRoundness": {
+                      "type": "number",
+                      "description": "Top-right corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.topRightRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                      "minimum": 0
+                    },
+                    "bottomRightRoundness": {
+                      "type": "number",
+                      "description": "Bottom-right corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.bottomRightRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                      "minimum": 0
+                    },
+                    "bottomLeftRoundness": {
+                      "type": "number",
+                      "description": "Bottom-left corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.bottomLeftRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
                       "minimum": 0
                     },
                     "minimumHeaderWidth": {
@@ -829,8 +1059,54 @@
                   "properties": {
                     "radius": {
                       "type": "number",
-                      "description": "Corner radius, in px. Capped at half the notch's width and height.",
+                      "description": "Corner radius, in px, for every corner without its own *Radius key. Overrides the shared notch.radius, including the shared per-corner keys. Capped at half the notch's width and height.",
                       "default": 28,
+                      "minimum": 0
+                    },
+                    "topLeftRadius": {
+                      "type": "number",
+                      "description": "Top-left corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.topLeftRadius. Capped at half the notch's width and height.",
+                      "minimum": 0
+                    },
+                    "topRightRadius": {
+                      "type": "number",
+                      "description": "Top-right corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.topRightRadius. Capped at half the notch's width and height.",
+                      "minimum": 0
+                    },
+                    "bottomRightRadius": {
+                      "type": "number",
+                      "description": "Bottom-right corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.bottomRightRadius. Capped at half the notch's width and height.",
+                      "minimum": 0
+                    },
+                    "bottomLeftRadius": {
+                      "type": "number",
+                      "description": "Bottom-left corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.bottomLeftRadius. Capped at half the notch's width and height.",
+                      "minimum": 0
+                    },
+                    "cornerRoundness": {
+                      "type": "number",
+                      "description": "Shape of every corner without its own *Roundness key: 0 is a straight cut, 1 is round, about 1.45 is a squircle, and above about 1.8 it bulges past square. Animates when changed. Overrides the shared notch.cornerRoundness, including the shared per-corner keys.",
+                      "default": 1,
+                      "minimum": 0
+                    },
+                    "topLeftRoundness": {
+                      "type": "number",
+                      "description": "Top-left corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.topLeftRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                      "minimum": 0
+                    },
+                    "topRightRoundness": {
+                      "type": "number",
+                      "description": "Top-right corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.topRightRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                      "minimum": 0
+                    },
+                    "bottomRightRoundness": {
+                      "type": "number",
+                      "description": "Bottom-right corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.bottomRightRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                      "minimum": 0
+                    },
+                    "bottomLeftRoundness": {
+                      "type": "number",
+                      "description": "Bottom-left corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.bottomLeftRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
                       "minimum": 0
                     },
                     "minimumHeaderWidth": {
@@ -965,8 +1241,54 @@
                   "properties": {
                     "radius": {
                       "type": "number",
-                      "description": "Corner radius, in px. Capped at half the notch's width and height.",
+                      "description": "Corner radius, in px, for every corner without its own *Radius key. Overrides the shared notch.radius, including the shared per-corner keys. Capped at half the notch's width and height.",
                       "default": 28,
+                      "minimum": 0
+                    },
+                    "topLeftRadius": {
+                      "type": "number",
+                      "description": "Top-left corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.topLeftRadius. Capped at half the notch's width and height.",
+                      "minimum": 0
+                    },
+                    "topRightRadius": {
+                      "type": "number",
+                      "description": "Top-right corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.topRightRadius. Capped at half the notch's width and height.",
+                      "minimum": 0
+                    },
+                    "bottomRightRadius": {
+                      "type": "number",
+                      "description": "Bottom-right corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.bottomRightRadius. Capped at half the notch's width and height.",
+                      "minimum": 0
+                    },
+                    "bottomLeftRadius": {
+                      "type": "number",
+                      "description": "Bottom-left corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.bottomLeftRadius. Capped at half the notch's width and height.",
+                      "minimum": 0
+                    },
+                    "cornerRoundness": {
+                      "type": "number",
+                      "description": "Shape of every corner without its own *Roundness key: 0 is a straight cut, 1 is round, about 1.45 is a squircle, and above about 1.8 it bulges past square. Animates when changed. Overrides the shared notch.cornerRoundness, including the shared per-corner keys.",
+                      "default": 1,
+                      "minimum": 0
+                    },
+                    "topLeftRoundness": {
+                      "type": "number",
+                      "description": "Top-left corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.topLeftRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                      "minimum": 0
+                    },
+                    "topRightRoundness": {
+                      "type": "number",
+                      "description": "Top-right corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.topRightRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                      "minimum": 0
+                    },
+                    "bottomRightRoundness": {
+                      "type": "number",
+                      "description": "Bottom-right corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.bottomRightRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                      "minimum": 0
+                    },
+                    "bottomLeftRoundness": {
+                      "type": "number",
+                      "description": "Bottom-left corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.bottomLeftRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
                       "minimum": 0
                     },
                     "minimumHeaderWidth": {
@@ -1094,8 +1416,54 @@
                   "properties": {
                     "radius": {
                       "type": "number",
-                      "description": "Corner radius, in px. Capped at half the notch's width and height.",
+                      "description": "Corner radius, in px, for every corner without its own *Radius key. Overrides the shared notch.radius, including the shared per-corner keys. Capped at half the notch's width and height.",
                       "default": 28,
+                      "minimum": 0
+                    },
+                    "topLeftRadius": {
+                      "type": "number",
+                      "description": "Top-left corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.topLeftRadius. Capped at half the notch's width and height.",
+                      "minimum": 0
+                    },
+                    "topRightRadius": {
+                      "type": "number",
+                      "description": "Top-right corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.topRightRadius. Capped at half the notch's width and height.",
+                      "minimum": 0
+                    },
+                    "bottomRightRadius": {
+                      "type": "number",
+                      "description": "Bottom-right corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.bottomRightRadius. Capped at half the notch's width and height.",
+                      "minimum": 0
+                    },
+                    "bottomLeftRadius": {
+                      "type": "number",
+                      "description": "Bottom-left corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.bottomLeftRadius. Capped at half the notch's width and height.",
+                      "minimum": 0
+                    },
+                    "cornerRoundness": {
+                      "type": "number",
+                      "description": "Shape of every corner without its own *Roundness key: 0 is a straight cut, 1 is round, about 1.45 is a squircle, and above about 1.8 it bulges past square. Animates when changed. Overrides the shared notch.cornerRoundness, including the shared per-corner keys.",
+                      "default": 1,
+                      "minimum": 0
+                    },
+                    "topLeftRoundness": {
+                      "type": "number",
+                      "description": "Top-left corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.topLeftRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                      "minimum": 0
+                    },
+                    "topRightRoundness": {
+                      "type": "number",
+                      "description": "Top-right corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.topRightRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                      "minimum": 0
+                    },
+                    "bottomRightRoundness": {
+                      "type": "number",
+                      "description": "Bottom-right corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.bottomRightRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                      "minimum": 0
+                    },
+                    "bottomLeftRoundness": {
+                      "type": "number",
+                      "description": "Bottom-left corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.bottomLeftRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
                       "minimum": 0
                     },
                     "minimumHeaderWidth": {
@@ -1233,8 +1601,54 @@
               "properties": {
                 "radius": {
                   "type": "number",
-                  "description": "Corner radius, in px. Capped at half the notch's width and height.",
+                  "description": "Corner radius, in px, for every corner without its own *Radius key. Overrides the shared notch.radius, including the shared per-corner keys. Capped at half the notch's width and height.",
                   "default": 28,
+                  "minimum": 0
+                },
+                "topLeftRadius": {
+                  "type": "number",
+                  "description": "Top-left corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.topLeftRadius. Capped at half the notch's width and height.",
+                  "minimum": 0
+                },
+                "topRightRadius": {
+                  "type": "number",
+                  "description": "Top-right corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.topRightRadius. Capped at half the notch's width and height.",
+                  "minimum": 0
+                },
+                "bottomRightRadius": {
+                  "type": "number",
+                  "description": "Bottom-right corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.bottomRightRadius. Capped at half the notch's width and height.",
+                  "minimum": 0
+                },
+                "bottomLeftRadius": {
+                  "type": "number",
+                  "description": "Bottom-left corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.bottomLeftRadius. Capped at half the notch's width and height.",
+                  "minimum": 0
+                },
+                "cornerRoundness": {
+                  "type": "number",
+                  "description": "Shape of every corner without its own *Roundness key: 0 is a straight cut, 1 is round, about 1.45 is a squircle, and above about 1.8 it bulges past square. Animates when changed. Overrides the shared notch.cornerRoundness, including the shared per-corner keys.",
+                  "default": 1,
+                  "minimum": 0
+                },
+                "topLeftRoundness": {
+                  "type": "number",
+                  "description": "Top-left corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.topLeftRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                  "minimum": 0
+                },
+                "topRightRoundness": {
+                  "type": "number",
+                  "description": "Top-right corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.topRightRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                  "minimum": 0
+                },
+                "bottomRightRoundness": {
+                  "type": "number",
+                  "description": "Bottom-right corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.bottomRightRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                  "minimum": 0
+                },
+                "bottomLeftRoundness": {
+                  "type": "number",
+                  "description": "Bottom-left corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.bottomLeftRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
                   "minimum": 0
                 },
                 "minimumHeaderWidth": {
@@ -1362,8 +1776,54 @@
               "properties": {
                 "radius": {
                   "type": "number",
-                  "description": "Corner radius, in px. Capped at half the notch's width and height.",
+                  "description": "Corner radius, in px, for every corner without its own *Radius key. Overrides the shared notch.radius, including the shared per-corner keys. Capped at half the notch's width and height.",
                   "default": 28,
+                  "minimum": 0
+                },
+                "topLeftRadius": {
+                  "type": "number",
+                  "description": "Top-left corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.topLeftRadius. Capped at half the notch's width and height.",
+                  "minimum": 0
+                },
+                "topRightRadius": {
+                  "type": "number",
+                  "description": "Top-right corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.topRightRadius. Capped at half the notch's width and height.",
+                  "minimum": 0
+                },
+                "bottomRightRadius": {
+                  "type": "number",
+                  "description": "Bottom-right corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.bottomRightRadius. Capped at half the notch's width and height.",
+                  "minimum": 0
+                },
+                "bottomLeftRadius": {
+                  "type": "number",
+                  "description": "Bottom-left corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.bottomLeftRadius. Capped at half the notch's width and height.",
+                  "minimum": 0
+                },
+                "cornerRoundness": {
+                  "type": "number",
+                  "description": "Shape of every corner without its own *Roundness key: 0 is a straight cut, 1 is round, about 1.45 is a squircle, and above about 1.8 it bulges past square. Animates when changed. Overrides the shared notch.cornerRoundness, including the shared per-corner keys.",
+                  "default": 1,
+                  "minimum": 0
+                },
+                "topLeftRoundness": {
+                  "type": "number",
+                  "description": "Top-left corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.topLeftRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                  "minimum": 0
+                },
+                "topRightRoundness": {
+                  "type": "number",
+                  "description": "Top-right corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.topRightRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                  "minimum": 0
+                },
+                "bottomRightRoundness": {
+                  "type": "number",
+                  "description": "Bottom-right corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.bottomRightRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                  "minimum": 0
+                },
+                "bottomLeftRoundness": {
+                  "type": "number",
+                  "description": "Bottom-left corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.bottomLeftRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
                   "minimum": 0
                 },
                 "minimumHeaderWidth": {
@@ -1491,8 +1951,54 @@
               "properties": {
                 "radius": {
                   "type": "number",
-                  "description": "Corner radius, in px. Capped at half the notch's width and height.",
+                  "description": "Corner radius, in px, for every corner without its own *Radius key. Overrides the shared notch.radius, including the shared per-corner keys. Capped at half the notch's width and height.",
                   "default": 28,
+                  "minimum": 0
+                },
+                "topLeftRadius": {
+                  "type": "number",
+                  "description": "Top-left corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.topLeftRadius. Capped at half the notch's width and height.",
+                  "minimum": 0
+                },
+                "topRightRadius": {
+                  "type": "number",
+                  "description": "Top-right corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.topRightRadius. Capped at half the notch's width and height.",
+                  "minimum": 0
+                },
+                "bottomRightRadius": {
+                  "type": "number",
+                  "description": "Bottom-right corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.bottomRightRadius. Capped at half the notch's width and height.",
+                  "minimum": 0
+                },
+                "bottomLeftRadius": {
+                  "type": "number",
+                  "description": "Bottom-left corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.bottomLeftRadius. Capped at half the notch's width and height.",
+                  "minimum": 0
+                },
+                "cornerRoundness": {
+                  "type": "number",
+                  "description": "Shape of every corner without its own *Roundness key: 0 is a straight cut, 1 is round, about 1.45 is a squircle, and above about 1.8 it bulges past square. Animates when changed. Overrides the shared notch.cornerRoundness, including the shared per-corner keys.",
+                  "default": 1,
+                  "minimum": 0
+                },
+                "topLeftRoundness": {
+                  "type": "number",
+                  "description": "Top-left corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.topLeftRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                  "minimum": 0
+                },
+                "topRightRoundness": {
+                  "type": "number",
+                  "description": "Top-right corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.topRightRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                  "minimum": 0
+                },
+                "bottomRightRoundness": {
+                  "type": "number",
+                  "description": "Bottom-right corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.bottomRightRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+                  "minimum": 0
+                },
+                "bottomLeftRoundness": {
+                  "type": "number",
+                  "description": "Bottom-left corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.bottomLeftRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
                   "minimum": 0
                 },
                 "minimumHeaderWidth": {
@@ -1780,8 +2286,54 @@
           "properties": {
             "radius": {
               "type": "number",
-              "description": "Corner radius, in px. Capped at half the notch's width and height.",
+              "description": "Corner radius, in px, for every corner without its own *Radius key. Overrides the shared notch.radius, including the shared per-corner keys. Capped at half the notch's width and height.",
               "default": 28,
+              "minimum": 0
+            },
+            "topLeftRadius": {
+              "type": "number",
+              "description": "Top-left corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.topLeftRadius. Capped at half the notch's width and height.",
+              "minimum": 0
+            },
+            "topRightRadius": {
+              "type": "number",
+              "description": "Top-right corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.topRightRadius. Capped at half the notch's width and height.",
+              "minimum": 0
+            },
+            "bottomRightRadius": {
+              "type": "number",
+              "description": "Bottom-right corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.bottomRightRadius. Capped at half the notch's width and height.",
+              "minimum": 0
+            },
+            "bottomLeftRadius": {
+              "type": "number",
+              "description": "Bottom-left corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.bottomLeftRadius. Capped at half the notch's width and height.",
+              "minimum": 0
+            },
+            "cornerRoundness": {
+              "type": "number",
+              "description": "Shape of every corner without its own *Roundness key: 0 is a straight cut, 1 is round, about 1.45 is a squircle, and above about 1.8 it bulges past square. Animates when changed. Overrides the shared notch.cornerRoundness, including the shared per-corner keys.",
+              "default": 1,
+              "minimum": 0
+            },
+            "topLeftRoundness": {
+              "type": "number",
+              "description": "Top-left corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.topLeftRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+              "minimum": 0
+            },
+            "topRightRoundness": {
+              "type": "number",
+              "description": "Top-right corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.topRightRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+              "minimum": 0
+            },
+            "bottomRightRoundness": {
+              "type": "number",
+              "description": "Bottom-right corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.bottomRightRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+              "minimum": 0
+            },
+            "bottomLeftRoundness": {
+              "type": "number",
+              "description": "Bottom-left corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.bottomLeftRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
               "minimum": 0
             },
             "minimumHeaderWidth": {
@@ -1909,8 +2461,54 @@
           "properties": {
             "radius": {
               "type": "number",
-              "description": "Corner radius, in px. Capped at half the notch's width and height.",
+              "description": "Corner radius, in px, for every corner without its own *Radius key. Overrides the shared notch.radius, including the shared per-corner keys. Capped at half the notch's width and height.",
               "default": 28,
+              "minimum": 0
+            },
+            "topLeftRadius": {
+              "type": "number",
+              "description": "Top-left corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.topLeftRadius. Capped at half the notch's width and height.",
+              "minimum": 0
+            },
+            "topRightRadius": {
+              "type": "number",
+              "description": "Top-right corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.topRightRadius. Capped at half the notch's width and height.",
+              "minimum": 0
+            },
+            "bottomRightRadius": {
+              "type": "number",
+              "description": "Bottom-right corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.bottomRightRadius. Capped at half the notch's width and height.",
+              "minimum": 0
+            },
+            "bottomLeftRadius": {
+              "type": "number",
+              "description": "Bottom-left corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.bottomLeftRadius. Capped at half the notch's width and height.",
+              "minimum": 0
+            },
+            "cornerRoundness": {
+              "type": "number",
+              "description": "Shape of every corner without its own *Roundness key: 0 is a straight cut, 1 is round, about 1.45 is a squircle, and above about 1.8 it bulges past square. Animates when changed. Overrides the shared notch.cornerRoundness, including the shared per-corner keys.",
+              "default": 1,
+              "minimum": 0
+            },
+            "topLeftRoundness": {
+              "type": "number",
+              "description": "Top-left corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.topLeftRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+              "minimum": 0
+            },
+            "topRightRoundness": {
+              "type": "number",
+              "description": "Top-right corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.topRightRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+              "minimum": 0
+            },
+            "bottomRightRoundness": {
+              "type": "number",
+              "description": "Bottom-right corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.bottomRightRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+              "minimum": 0
+            },
+            "bottomLeftRoundness": {
+              "type": "number",
+              "description": "Bottom-left corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.bottomLeftRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
               "minimum": 0
             },
             "minimumHeaderWidth": {
@@ -2045,8 +2643,54 @@
           "properties": {
             "radius": {
               "type": "number",
-              "description": "Corner radius, in px. Capped at half the notch's width and height.",
+              "description": "Corner radius, in px, for every corner without its own *Radius key. Overrides the shared notch.radius, including the shared per-corner keys. Capped at half the notch's width and height.",
               "default": 28,
+              "minimum": 0
+            },
+            "topLeftRadius": {
+              "type": "number",
+              "description": "Top-left corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.topLeftRadius. Capped at half the notch's width and height.",
+              "minimum": 0
+            },
+            "topRightRadius": {
+              "type": "number",
+              "description": "Top-right corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.topRightRadius. Capped at half the notch's width and height.",
+              "minimum": 0
+            },
+            "bottomRightRadius": {
+              "type": "number",
+              "description": "Bottom-right corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.bottomRightRadius. Capped at half the notch's width and height.",
+              "minimum": 0
+            },
+            "bottomLeftRadius": {
+              "type": "number",
+              "description": "Bottom-left corner radius, in px, as seen on screen. Overrides this notch's radius and the shared notch.bottomLeftRadius. Capped at half the notch's width and height.",
+              "minimum": 0
+            },
+            "cornerRoundness": {
+              "type": "number",
+              "description": "Shape of every corner without its own *Roundness key: 0 is a straight cut, 1 is round, about 1.45 is a squircle, and above about 1.8 it bulges past square. Animates when changed. Overrides the shared notch.cornerRoundness, including the shared per-corner keys.",
+              "default": 1,
+              "minimum": 0
+            },
+            "topLeftRoundness": {
+              "type": "number",
+              "description": "Top-left corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.topLeftRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+              "minimum": 0
+            },
+            "topRightRoundness": {
+              "type": "number",
+              "description": "Top-right corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.topRightRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+              "minimum": 0
+            },
+            "bottomRightRoundness": {
+              "type": "number",
+              "description": "Bottom-right corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.bottomRightRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
+              "minimum": 0
+            },
+            "bottomLeftRoundness": {
+              "type": "number",
+              "description": "Bottom-left corner shape, as seen on screen (see cornerRoundness). Overrides this notch's cornerRoundness and the shared notch.bottomLeftRoundness. Where a child notch joins its parent, each side keeps its own value; different values meet with a kink.",
               "minimum": 0
             },
             "minimumHeaderWidth": {
@@ -2315,6 +2959,61 @@
           "default": 0.65,
           "minimum": 0,
           "maximum": 1
+        },
+        "radius": {
+          "type": "number",
+          "description": "Default corner radius for every notch, in px. Capped at half the notch's width and height.",
+          "default": 28,
+          "minimum": 0
+        },
+        "topLeftRadius": {
+          "type": "number",
+          "description": "Default top-left corner radius, in px, as seen on screen. A notch's own radius or topLeftRadius overrides it.",
+          "minimum": 0
+        },
+        "topRightRadius": {
+          "type": "number",
+          "description": "Default top-right corner radius, in px, as seen on screen. A notch's own radius or topRightRadius overrides it.",
+          "minimum": 0
+        },
+        "bottomRightRadius": {
+          "type": "number",
+          "description": "Default bottom-right corner radius, in px, as seen on screen. A notch's own radius or bottomRightRadius overrides it.",
+          "minimum": 0
+        },
+        "bottomLeftRadius": {
+          "type": "number",
+          "description": "Default bottom-left corner radius, in px, as seen on screen. A notch's own radius or bottomLeftRadius overrides it.",
+          "minimum": 0
+        },
+        "cornerRoundness": {
+          "type": "number",
+          "description": "Default corner shape for every notch: 0 is a straight cut, 1 is round, about 1.45 is a squircle, and above about 1.8 it bulges past square. Animates when changed.",
+          "default": 1,
+          "minimum": 0
+        },
+        "topLeftRoundness": {
+          "type": "number",
+          "description": "Default top-left corner shape, as seen on screen (see cornerRoundness). A notch's own cornerRoundness or topLeftRoundness overrides it.",
+          "minimum": 0
+        },
+        "topRightRoundness": {
+          "type": "number",
+          "description": "Default top-right corner shape, as seen on screen (see cornerRoundness). A notch's own cornerRoundness or topRightRoundness overrides it.",
+          "minimum": 0
+        },
+        "bottomRightRoundness": {
+          "type": "number",
+          "description": "Default bottom-right corner shape, as seen on screen (see cornerRoundness). A notch's own cornerRoundness or bottomRightRoundness overrides it.",
+          "minimum": 0
+        },
+        "bottomLeftRoundness": {
+          "type": "number",
+          "description": "Default bottom-left corner shape, as seen on screen (see cornerRoundness). A notch's own cornerRoundness or bottomLeftRoundness overrides it.",
+          "minimum": 0
+        },
+        "dropShadow": {
+          "$ref": "#/definitions/dropShadow"
         }
       },
       "additionalProperties": false

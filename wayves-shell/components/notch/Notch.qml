@@ -65,25 +65,25 @@ Item {
     }
 
     property DropShadow dropShadow: DropShadow {
-        enabled: configObject?.dropShadow?.enabled ?? false
-        applyToShape: configObject?.dropShadow?.applyToShape ?? true
+        enabled: configObject?.dropShadow?.enabled ?? ShellConfig.configObject?.notch?.dropShadow?.enabled ?? false
+        applyToShape: configObject?.dropShadow?.applyToShape ?? ShellConfig.configObject?.notch?.dropShadow?.applyToShape ?? true
 
-        leftExtent: ShellConfig.px(configObject?.dropShadow?.leftExtent ?? 30)
-        rightExtent: ShellConfig.px(configObject?.dropShadow?.rightExtent ?? 30)
-        topExtent: ShellConfig.px(configObject?.dropShadow?.topExtent ?? 30)
-        bottomExtent: ShellConfig.px(configObject?.dropShadow?.bottomExtent ?? 30)
+        leftExtent: ShellConfig.px(configObject?.dropShadow?.leftExtent ?? ShellConfig.configObject?.notch?.dropShadow?.leftExtent ?? 30)
+        rightExtent: ShellConfig.px(configObject?.dropShadow?.rightExtent ?? ShellConfig.configObject?.notch?.dropShadow?.rightExtent ?? 30)
+        topExtent: ShellConfig.px(configObject?.dropShadow?.topExtent ?? ShellConfig.configObject?.notch?.dropShadow?.topExtent ?? 30)
+        bottomExtent: ShellConfig.px(configObject?.dropShadow?.bottomExtent ?? ShellConfig.configObject?.notch?.dropShadow?.bottomExtent ?? 30)
 
-        verticalOffset: ShellConfig.px(configObject?.dropShadow?.verticalOffset ?? 8)
-        horizontalOffset: ShellConfig.px(configObject?.dropShadow?.horizontalOffset ?? 0)
+        verticalOffset: ShellConfig.px(configObject?.dropShadow?.verticalOffset ?? ShellConfig.configObject?.notch?.dropShadow?.verticalOffset ?? 8)
+        horizontalOffset: ShellConfig.px(configObject?.dropShadow?.horizontalOffset ?? ShellConfig.configObject?.notch?.dropShadow?.horizontalOffset ?? 0)
 
-        blur: ShellConfig.px(configObject?.dropShadow?.blur ?? 32)
-        spread: configObject?.dropShadow?.spread ?? 0
+        blur: ShellConfig.px(configObject?.dropShadow?.blur ?? ShellConfig.configObject?.notch?.dropShadow?.blur ?? 32)
+        spread: configObject?.dropShadow?.spread ?? ShellConfig.configObject?.notch?.dropShadow?.spread ?? 0
 
-        color: configObject?.dropShadow?.color ?? Qt.tint(Qt.darker(Qt.rgba(Colors.primary.r, Colors.primary.g, Colors.primary.b, 1), 3), Qt.rgba(Colors.primary.r, Colors.primary.g, Colors.primary.b, .5))
+        color: configObject?.dropShadow?.color ?? ShellConfig.configObject?.notch?.dropShadow?.color ?? Qt.tint(Qt.darker(Qt.rgba(Colors.primary.r, Colors.primary.g, Colors.primary.b, 1), 3), Qt.rgba(Colors.primary.r, Colors.primary.g, Colors.primary.b, .5))
     }
 
     property NotchConfig notchConfig: NotchConfig {
-        radius: ShellConfig.px(configObject?.radius ?? 28)
+        radius: ShellConfig.px(configObject?.radius ?? ShellConfig.configObject?.notch?.radius ?? 28)
         minimumHeaderWidth: ShellConfig.pxOpt(configObject?.minimumHeaderWidth ?? -1)
         minimumHeaderHeight: ShellConfig.pxOpt(configObject?.minimumHeaderHeight ?? -1)
 
@@ -150,6 +150,11 @@ Item {
         rightSideOverflow: root.rightSideOverflow
         topSideOverflow: root.topSideOverflow
         bottomSideOverflow: root.bottomSideOverflow
+
+        topLeftRoundness: root.topLeftRoundness
+        topRightRoundness: root.topRightRoundness
+        bottomRightRoundness: root.bottomRightRoundness
+        bottomLeftRoundness: root.bottomLeftRoundness
     }
 
     onShowHeaderChanged: {
@@ -164,6 +169,15 @@ Item {
     }
 
     property real overshoot: configObject?.overshoot ?? ShellConfig.configObject?.notch?.overshoot ?? 1
+
+    function roundnessFor(corner) {
+        return configObject?.[corner] ?? configObject?.cornerRoundness ?? ShellConfig.configObject?.notch?.[corner] ?? ShellConfig.configObject?.notch?.cornerRoundness ?? 1;
+    }
+
+    property real topLeftRoundness: roundnessFor("topLeftRoundness")
+    property real topRightRoundness: roundnessFor("topRightRoundness")
+    property real bottomRightRoundness: roundnessFor("bottomRightRoundness")
+    property real bottomLeftRoundness: roundnessFor("bottomLeftRoundness")
 
     Behavior on notchHeight {
         NumberAnimation {
@@ -255,18 +269,29 @@ Item {
     property bool preloadContent: false
     property bool warmingContent: preloadContent
 
-    readonly property real usedRadius: Math.min(notchConfig.radius, Math.min(notchWidth / 2., notchHeight / 2.))
+    function radiusForCorner(corner) {
+        return ShellConfig.px(configObject?.[corner] ?? configObject?.radius ?? ShellConfig.configObject?.notch?.[corner] ?? ShellConfig.configObject?.notch?.radius ?? 28);
+    }
 
-    property real topLeftRadius: -usedRadius
+    function usedRadiusForCorner(corner) {
+        return Math.min(radiusForCorner(corner), Math.min(notchWidth / 2., notchHeight / 2.));
+    }
+
+    readonly property real usedTopLeftRadius: usedRadiusForCorner("topLeftRadius")
+    readonly property real usedTopRightRadius: usedRadiusForCorner("topRightRadius")
+    readonly property real usedBottomRightRadius: usedRadiusForCorner("bottomRightRadius")
+    readonly property real usedBottomLeftRadius: usedRadiusForCorner("bottomLeftRadius")
+
+    property real topLeftRadius: -usedTopLeftRadius
     property bool flipTopLeft: true
 
-    property real topRightRadius: -usedRadius
+    property real topRightRadius: -usedTopRightRadius
     property bool flipTopRight: false
 
-    property real bottomRightRadius: -usedRadius
+    property real bottomRightRadius: -usedBottomRightRadius
     property bool flipBottomRight: false
 
-    property real bottomLeftRadius: usedRadius
+    property real bottomLeftRadius: usedBottomLeftRadius
     property bool flipBottomLeft: false
 
     property Item bottomLeftClaimant: null
@@ -357,15 +382,15 @@ Item {
 
         if (!panelParent.expanded || !root.expanded) {
             panelParent.releaseBottomLeft(root);
-            setBottomRight(-root.usedRadius);
+            setBottomRight(-root.usedBottomRightRadius);
             return;
         }
         if (difference < 0) {
-            setBottomRight(Math.min((-difference / 2.), root.usedRadius));
-            panelParent.claimBottomLeft(root, -Math.min((-difference / 2.), panelParent.usedRadius), true);
+            setBottomRight(Math.min((-difference / 2.), root.usedBottomRightRadius));
+            panelParent.claimBottomLeft(root, -Math.min((-difference / 2.), panelParent.usedBottomLeftRadius), true);
         } else {
-            setBottomRight(-Math.min((difference / 2.), root.usedRadius));
-            panelParent.claimBottomLeft(root, Math.min((difference / 2.), panelParent.usedRadius), true);
+            setBottomRight(-Math.min((difference / 2.), root.usedBottomRightRadius));
+            panelParent.claimBottomLeft(root, Math.min((difference / 2.), panelParent.usedBottomLeftRadius), true);
             root.flipBottomRight = false;
         }
     }
@@ -394,9 +419,10 @@ Item {
         }
     }
 
-    onUsedRadiusChanged: {
-        generateRadiiBasedOnDirection();
-    }
+    onUsedTopLeftRadiusChanged: generateRadiiBasedOnDirection()
+    onUsedTopRightRadiusChanged: generateRadiiBasedOnDirection()
+    onUsedBottomRightRadiusChanged: generateRadiiBasedOnDirection()
+    onUsedBottomLeftRadiusChanged: generateRadiiBasedOnDirection()
 
     onExpandedChanged: {
         let cp = getCustomParent(root);
@@ -408,13 +434,18 @@ Item {
     }
 
     function generateRadiiBasedOnDirection() {
-        root.topLeftRadius = Math.abs(root.usedRadius);
-        root.topRightRadius = Math.abs(root.usedRadius);
-        root.bottomRightRadius = Math.abs(root.usedRadius);
-        root.bottomLeftRadius = Math.abs(root.usedRadius);
+        let topLeft = Math.abs(root.usedTopLeftRadius);
+        let topRight = Math.abs(root.usedTopRightRadius);
+        let bottomRight = Math.abs(root.usedBottomRightRadius);
+        let bottomLeft = Math.abs(root.usedBottomLeftRadius);
 
-        if (root.direction === Directions.None)
+        if (root.direction === Directions.None) {
+            root.topLeftRadius = topLeft;
+            root.topRightRadius = topRight;
+            root.bottomRightRadius = bottomRight;
+            root.bottomLeftRadius = bottomLeft;
             return;
+        }
 
         var topLeftTracker = undefined;
         var topRightTracker = undefined;
@@ -422,34 +453,34 @@ Item {
         var bottomRightTracker = undefined;
 
         if (root.direction & Directions.Right) {
-            root.topLeftRadius = -root.usedRadius;
+            topLeft = -root.usedTopLeftRadius;
             topLeftTracker = (topLeftTracker ?? 0) - 1;
 
-            root.bottomLeftRadius = -root.usedRadius;
+            bottomLeft = -root.usedBottomLeftRadius;
             bottomLeftTracker = (bottomLeftTracker ?? 0) + 1;
         }
 
         if (root.direction & Directions.Left) {
-            root.topRightRadius = -root.usedRadius;
+            topRight = -root.usedTopRightRadius;
             topRightTracker = (topRightTracker ?? 0) + 1;
 
-            root.bottomRightRadius = -root.usedRadius;
+            bottomRight = -root.usedBottomRightRadius;
             bottomRightTracker = (bottomRightTracker ?? 0) - 1;
         }
 
         if (root.direction & Directions.Up) {
-            root.bottomRightRadius = -root.usedRadius;
+            bottomRight = -root.usedBottomRightRadius;
             bottomRightTracker = (bottomRightTracker ?? 0) + 1;
 
-            root.bottomLeftRadius = -root.usedRadius;
+            bottomLeft = -root.usedBottomLeftRadius;
             bottomLeftTracker = (bottomLeftTracker ?? 0) - 1;
         }
 
         if (root.direction & Directions.Down) {
-            root.topLeftRadius = -root.usedRadius;
+            topLeft = -root.usedTopLeftRadius;
             topLeftTracker = (topLeftTracker ?? 0) + 1;
 
-            root.topRightRadius = -root.usedRadius;
+            topRight = -root.usedTopRightRadius;
             topRightTracker = (topRightTracker ?? 0) - 1;
         }
 
@@ -458,10 +489,10 @@ Item {
         root.flipBottomLeft = bottomLeftTracker >= 0;
         root.flipBottomRight = bottomRightTracker >= 0;
 
-        root.topLeftRadius = topLeftTracker === 0 ? 0 : root.topLeftRadius;
-        root.topRightRadius = topRightTracker === 0 ? 0 : root.topRightRadius;
-        root.bottomRightRadius = bottomRightTracker === 0 ? 0 : root.bottomRightRadius;
-        root.bottomLeftRadius = bottomLeftTracker === 0 ? 0 : root.bottomLeftRadius;
+        root.topLeftRadius = topLeftTracker === 0 ? 0 : topLeft;
+        root.topRightRadius = topRightTracker === 0 ? 0 : topRight;
+        root.bottomRightRadius = bottomRightTracker === 0 ? 0 : bottomRight;
+        root.bottomLeftRadius = bottomLeftTracker === 0 ? 0 : bottomLeft;
     }
 
     function getRightSideOverflow() {
@@ -753,48 +784,56 @@ Item {
                     y: shapePath.startY
                 }
                 PathLine {
-                    x: root.topWidth - Math.abs(root.topRightRadius)
-                    y: shapePath.startY
+                    x: topRightCorner.startPoint.x
+                    y: topRightCorner.startPoint.y
                 }
 
                 ArcGetter {
+                    id: topRightCorner
                     radius: root.topRightRadius
+                    roundness: root.shapeConfig.topRightRoundness
                     incomingPoint: Qt.point(root.topWidth - (Math.abs(root.topRightRadius)), (shapePath.startY))
                     incomingDirection: Directions.Right
                     flipNegativeRadiusFromIncomingDirection: root.shapeConfig.flipTopRight
                 }
 
                 PathLine {
-                    x: root.topWidth
-                    y: root.rightHeight - Math.abs(root.bottomRightRadius)
+                    x: bottomRightCorner.startPoint.x
+                    y: bottomRightCorner.startPoint.y
                 }
 
                 ArcGetter {
+                    id: bottomRightCorner
                     radius: root.bottomRightRadius
+                    roundness: root.shapeConfig.bottomRightRoundness
                     incomingPoint: Qt.point(root.topWidth, root.rightHeight - (Math.abs(root.bottomRightRadius)))
                     incomingDirection: Directions.Down
                     flipNegativeRadiusFromIncomingDirection: root.shapeConfig.flipBottomRight
                 }
 
                 PathLine {
-                    x: Math.abs(root.bottomLeftRadius) + (shapePath.startX)
-                    y: root.rightHeight
+                    x: bottomLeftCorner.startPoint.x
+                    y: bottomLeftCorner.startPoint.y
                 }
 
                 ArcGetter {
+                    id: bottomLeftCorner
                     radius: root.bottomLeftRadius
+                    roundness: root.shapeConfig.bottomLeftRoundness
                     incomingPoint: Qt.point((Math.abs(root.bottomLeftRadius)) + (shapePath.startX), root.leftHeight)
                     incomingDirection: Directions.Left
                     flipNegativeRadiusFromIncomingDirection: root.shapeConfig.flipBottomLeft
                 }
 
                 PathLine {
-                    x: (shapePath.startX)
-                    y: Math.abs(root.topLeftRadius) + (shapePath.startY)
+                    x: topLeftCorner.startPoint.x
+                    y: topLeftCorner.startPoint.y
                 }
 
                 ArcGetter {
+                    id: topLeftCorner
                     radius: root.topLeftRadius
+                    roundness: root.shapeConfig.topLeftRoundness
                     incomingPoint: Qt.point((shapePath.startX), Math.abs(root.topLeftRadius) + (shapePath.startY))
                     incomingDirection: Directions.Up
                     flipNegativeRadiusFromIncomingDirection: root.shapeConfig.flipTopLeft
@@ -803,10 +842,11 @@ Item {
         }
     }
 
-    component ArcGetter: PathAngleArc {
+    component ArcGetter: PathCubic {
         id: root
 
         property real radius: 0
+        property real roundness: 1
         property int incomingDirection: Directions.Right
         property bool flipNegativeRadiusFromIncomingDirection: false
 
@@ -888,13 +928,25 @@ Item {
             }
         }
 
-        centerX: getCenterX()
-        centerY: getCenterY()
-        radiusX: Math.abs(root.radius)
-        radiusY: Math.abs(root.radius)
-        startAngle: getStartAngle()
-        sweepAngle: Math.sign(root.radius) * 90
-        moveToStart: false
+        function pointAt(angle) {
+            const radians = angle * Math.PI / 180;
+            return Qt.point(root.centerX + Math.abs(root.radius) * Math.round(Math.cos(radians)), root.centerY + Math.abs(root.radius) * Math.round(Math.sin(radians)));
+        }
+
+        readonly property real centerX: getCenterX()
+        readonly property real centerY: getCenterY()
+        readonly property real startAngle: getStartAngle()
+        readonly property real endAngle: startAngle + Math.sign(root.radius) * 90
+        readonly property point startPoint: pointAt(startAngle)
+        readonly property point endPoint: pointAt(endAngle)
+        readonly property real handle: 0.5522847498 * root.roundness
+
+        x: endPoint.x
+        y: endPoint.y
+        control1X: startPoint.x + handle * (endPoint.x - centerX)
+        control1Y: startPoint.y + handle * (endPoint.y - centerY)
+        control2X: endPoint.x + handle * (startPoint.x - centerX)
+        control2Y: endPoint.y + handle * (startPoint.y - centerY)
     }
 
     component ShadowRenderer: Item {

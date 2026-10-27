@@ -22,6 +22,39 @@ QtObject {
     property real topSideOverflow: 0
     property real bottomSideOverflow: 0
 
+    property real topLeftRoundness: 1
+    property real topRightRoundness: 1
+    property real bottomRightRoundness: 1
+    property real bottomLeftRoundness: 1
+
+    Behavior on topLeftRoundness {
+        NumberAnimation {
+            duration: 100
+            easing.type: Easing.InOutQuad
+        }
+    }
+
+    Behavior on topRightRoundness {
+        NumberAnimation {
+            duration: 100
+            easing.type: Easing.InOutQuad
+        }
+    }
+
+    Behavior on bottomRightRoundness {
+        NumberAnimation {
+            duration: 100
+            easing.type: Easing.InOutQuad
+        }
+    }
+
+    Behavior on bottomLeftRoundness {
+        NumberAnimation {
+            duration: 100
+            easing.type: Easing.InOutQuad
+        }
+    }
+
     Behavior on topLeftRadius {
         NumberAnimation {
             duration: 100
