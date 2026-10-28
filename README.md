@@ -22,7 +22,7 @@ Sound Controls that feature pavucontrol-like functionality. The audio bars (Line
 
 ---
 
-Wallpaper Picker with a background stage and a swarm of particles that shows the primary color from the wallpaper when hovered. The background and the particle swarm are Angular WayVes instances, and the top-right Theme switch button is also an Angular WayVes instance that changes to Sun/Moon for light/dark modes
+Wallpaper Picker with a background stage and a swarm of particles that shows the primary color from the wallpaper when hovered. The background and the particle swarm are NCS WayVes instances, and the top-right Theme switch button is also an Angular WayVes instance that changes to Sun/Moon for light/dark modes
 
 ![Wallpaper Picker](assets/wallpaper-picker.png)
 
